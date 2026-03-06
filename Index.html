@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building.IA - Análise de Projeto</title>
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            overflow: hidden;
+            height: 100vh;
+        }
+        
+        .font-display {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        
+        /* Grid Background */
+        .grid-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        /* Custom Scrollbar */
+        .custom-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .custom-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+        
+        .custom-scroll::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Message Animations */
+        @keyframes messageSlide {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        .message-enter {
+            animation: messageSlide 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        
+        /* Typing Indicator */
+        .typing-dot {
+            animation: typingBounce 1.4s infinite ease-in-out both;
+        }
+        
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+        
+        @keyframes typingBounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+        
+        /* Glass Effect */
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .glass-strong {
+            background: rgba(20, 20, 20, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        /* Input Glow */
+        .input-glow:focus {
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3), 0 0 20px rgba(59, 130, 246, 0.1);
+        }
+        
+        /* Button Hover Effects */
+        .btn-send {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .btn-send:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+        }
+        
+        .btn-send:active {
+            transform: translateY(0);
+        }
+        
+        /* Code Block Styling */
+        .code-block {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-family: 'Courier New', monospace;
+        }
+        
+        /* Table Styling */
+        .data-table {
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+        
+        .data-table th {
+            background: rgba(59, 130, 246, 0.1);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.3);
+        }
+        
+        .data-table td {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        /* Sidebar Item Hover */
+        .sidebar-item {
+            transition: all 0.2s ease;
+        }
+        
+        .sidebar-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateX(4px);
+        }
+        
+        .sidebar-item.active {
+            background: rgba(59, 130, 246, 0.1);
+            border-left: 3px solid #3b82f6;
+        }
+        
+        /* Pulse Animation for Live Indicator */
+        .live-pulse {
+            position: relative;
+        }
+        
+        .live-pulse::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            border: 2px solid #10b981;
+            animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+        
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            100% { transform: scale(2); opacity: 0; }
+        }
+        
+        /* Suggestion Chips */
+        .suggestion-chip {
+            transition: all 0.2s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .suggestion-chip:hover {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: rgba(59, 130, 246, 0.5);
+            transform: translateY(-1px);
+        }
+        
+        /* File Preview Card */
+        .file-preview {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(249, 115, 22, 0.05) 100%);
+        }
+        
+        /* Markdown Content */
+        .markdown-content h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 1rem 0 0.5rem;
+            color: #60a5fa;
+        }
+        
+        .markdown-content p {
+            margin-bottom: 0.75rem;
+            line-height: 1.6;
+        }
+        
+        .markdown-content ul {
+            margin-left: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .markdown-content li {
+            margin-bottom: 0.25rem;
+            position: relative;
+        }
+        
+        .markdown-content li::marker {
+            color: #3b82f6;
+        }
+        
+        /* Mobile Menu */
+        .mobile-menu {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+        
+        /* Overlay */
+        .overlay {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+    </style>
+</head>
+<body class="flex h-screen">
+    <div class="grid-bg"></div>
+    
+    <!-- Mobile Overlay -->
+    <div id="mobileOverlay" class="overlay fixed inset-0 bg-black/60 z-40 md:hidden" onclick="toggleMobileMenu()"></div>
+    
+    <!-- Sidebar -->
+    <aside id="sidebar" class="mobile-menu fixed md:relative z-50 w-80 h-full glass-strong flex flex-col border-r border-white/5 md:transform-none">
+        <!-- Logo -->
+        <div class="p-6 border-b border-white/5 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center shadow-lg shadow-blue-500/20">
+                    <i data-lucide="building-2" class="w-6 h-6 text-white"></i>
+                </div>
+                <div>
+                    <span class="font-display text-xl font-bold">Building<span class="text-blue-500">.IA</span></span>
+                    <div class="flex items-center gap-2 text-xs text-gray-500 mt-0.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-green-500 live-pulse"></span>
+                        <span>Online</span>
+                    </div>
+                </div>
+            </div>
+            <button onclick="toggleMobileMenu()" class="md:hidden text-gray-400 hover:text-white">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+        </div>
+        
+        <!-- Project Info -->
+        <div class="p-4 border-b border-white/5">
+            <div class="file-preview rounded-xl p-4 border border-white/10">
+                <div class="flex items-start gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="file-text" class="w-5 h-5 text-blue-400"></i>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h4 class="font-medium text-sm text-white truncate">Planta_Residencial.dwg</h4>
+                        <p class="text-xs text-gray-500 mt-1">2.4 MB • Processado</p>
+                        <div class="flex gap-2 mt-2">
+                            <span class="text-[10px] px-2 py-0.5 rounded-full bg-green-500/10 text-green-400 border border-green-500/20">OK</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Navigation -->
+        <nav class="flex-1 overflow-y-auto custom-scroll p-4 space-y-1">
+            <div class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-3 px-2">Seções do Projeto</div>
+            
+            <button class="sidebar-item active w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-left">
+                <i data-lucide="message-square" class="w-4 h-4 text-blue-400"></i>
+                <span>Conversa</span>
+            </button>
+            
+            <button class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-400 text-left hover:text-white">
+                <i data-lucide="calculator" class="w-4 h-4"></i>
+                <span>Cálculos Estruturais</span>
+            </button>
+            
+            <button class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-400 text-left hover:text-white">
+                <i data-lucide="zap" class="w-4 h-4"></i>
+                <span>Projeto Elétrico</span>
+            </button>
+            
+            <button class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-400 text-left hover:text-white">
+                <i data-lucide="droplets" class="w-4 h-4"></i>
+                <span>Projeto Hidráulico</span>
+            </button>
+            
+            <button class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-400 text-left hover:text-white">
+                <i data-lucide="clipboard-list" class="w-4 h-4"></i>
+                <span>Memorial Descritivo</span>
+            </button>
+            
+            <button class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-400 text-left hover:text-white">
+                <i data-lucide="hard-hat" class="w-4 h-4"></i>
+                <span>Especificações</span>
+            </button>
+            
+            <div class="text-xs font-medium text-gray-500 uppercase tracking-wider mt-6 mb-3 px-2">Ações</div>
+            
+            <button class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-400 text-left hover:text-white">
+                <i data-lucide="download" class="w-4 h-4"></i>
+                <span>Exportar Projeto</span>
+            </button>
+            
+            <button class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-400 text-left hover:text-white">
+                <i data-lucide="share-2" class="w-4 h-4"></i>
+                <span>Compartilhar</span>
+            </button>
+        </nav>
+        
+        <!-- User Profile -->
+        <div class="p-4 border-t border-white/5">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-gradient-to-br from-gray-700 to-gray-600 flex items-center justify-center">
+                    <i data-lucide="user" class="w-4 h-4 text-gray-300"></i>
+                </div>
+                <div class="flex-1">
+                    <p class="text-sm font-medium text-white">Eng. Carlos Silva</p>
+                    <p class="text-xs text-gray-500">CREA-SP 123456</p>
+                </div>
+                <button class="text-gray-500 hover:text-white transition-colors">
+                    <i data-lucide="settings" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+    </aside>
+    
+    <!-- Main Chat Area -->
+    <main class="relative z-10 flex-1 flex flex-col min-w-0 bg-gradient-to-b from-transparent to-black/20 w-full">
+        <!-- Mobile Header -->
+        <header class="glass-strong border-b border-white/5 p-4 flex items-center justify-between md:hidden">
+            <div class="flex items-center gap-3">
+                <button onclick="toggleMobileMenu()" class="text-gray-400 hover:text-white">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+                <span class="font-display font-bold text-lg">Building.IA</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+            </div>
+        </header>
+        
+        <!-- Chat Header -->
+        <div class="glass border-b border-white/5 px-6 py-4 flex items-center justify-between hidden md:flex">
+            <div class="flex items-center gap-4">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center relative">
+                    <i data-lucide="bot" class="w-5 h-5 text-white"></i>
+                    <div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-gray-900"></div>
+                </div>
+                <div>
+                    <h2 class="font-display font-semibold text-white">Assistente Building.IA</h2>
+                    <p class="text-xs text-gray-400 flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+                        Analisando projeto em tempo real
+                    </p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <button class="p-2 rounded-lg hover:bg-white/5 text-gray-400 hover:text-white transition-colors" title="Histórico">
+                    <i data-lucide="history" class="w-5 h-5"></i>
+                </button>
+                <button class="p-2 rounded-lg hover:bg-white/5 text-gray-400 hover:text-white transition-colors" title="Mais opções">
+                    <i data-lucide="more-vertical" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Messages Container -->
+        <div id="messagesContainer" class="flex-1 overflow-y-auto custom-scroll p-4 md:p-6 space-y-6">
+            <!-- Welcome Message -->
+            <div class="message-enter flex gap-4 max-w-4xl">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center flex-shrink-0 mt-1">
+                    <i data-lucide="bot" class="w-4 h-4 text-white"></i>
+                </div>
+                <div class="flex-1 space-y-3">
+                    <div class="glass rounded-2xl rounded-tl-sm p-5 text-gray-200 leading-relaxed">
+                        <p class="mb-3">Olá! Sou o assistente de IA da <strong class="text-blue-400">Building.IA</strong>. Recebi sua planta baixa e já processei todos os cálculos.</p>
+                        <p class="mb-3">Detectei uma <strong>residência unifamiliar</strong> de 180m² com:</p>
+                        <ul class="list-disc list-inside space-y-1 text-gray-300 mb-3 ml-2">
+                            <li>2 pavimentos</li>
+                            <li>Estrutura em concreto armado</li>
+                            <li>3 dormitórios, 1 suíte</li>
+                            <li>Cozinha integrada à sala</li>
+                        </ul>
+                        <p>Como posso ajudar? Você pode me perguntar sobre:</p>
+                    </div>
+                    
+                    <!-- Quick Suggestions -->
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="sendSuggestion(this)" class="suggestion-chip px-4 py-2 rounded-full text-sm text-gray-300 bg-white/5 hover:text-white cursor-pointer">
+                            Mostrar cálculo de lajes
+                        </button>
+                        <button onclick="sendSuggestion(this)" class="suggestion-chip px-4 py-2 rounded-full text-sm text-gray-300 bg-white/5 hover:text-white cursor-pointer">
+                            Dimensionar vigas principais
+                        </button>
+                        <button onclick="sendSuggestion(this)" class="suggestion-chip px-4 py-2 rounded-full text-sm text-gray-300 bg-white/5 hover:text-white cursor-pointer">
+                            Gerar projeto elétrico
+                        </button>
+                        <button onclick="sendSuggestion(this)" class="suggestion-chip px-4 py-2 rounded-full text-sm text-gray-300 bg-white/5 hover:text-white cursor-pointer">
+                            Calcular hidráulica
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Initial Analysis Message -->
+            <div class="message-enter flex gap-4 max-w-4xl" style="animation-delay: 0.2s">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center flex-shrink-0 mt-1">
+                    <i data-lucide="bot" class="w-4 h-4 text-white"></i>
+                </div>
+                <div class="flex-1">
+                    <div class="glass rounded-2xl rounded-tl-sm p-5">
+                        <div class="flex items-center gap-2 mb-3">
+                            <i data-lucide="sparkles" class="w-4 h-4 text-yellow-500"></i>
+                            <span class="font-display font-semibold text-white">Análise Preliminar Concluída</span>
+                        </div>
+                        
+                        <div class="grid grid-cols-3 gap-3 mb-4">
+                            <div class="bg-white/5 rounded-lg p-3 border border-white/5">
+                                <div class="text-xs text-gray-500 mb-1">Carga Total</div>
+                                <div class="text-lg font-semibold text-white">145 kN/m²</div>
+                            </div>
+                            <div class="bg-white/5 rounded-lg p-3 border border-white/5">
+                                <div class="text-xs text-gray-500 mb-1">Vão Máximo</div>
+                                <div class="text-lg font-semibold text-white">4.2 m</div>
+                            </div>
+                            <div class="bg-white/5 rounded-lg p-3 border border-white/5">
+                                <div class="text-xs text-gray-500 mb-1">Nível de Risco</div>
+                                <div class="text-lg font-semibold text-green-400">Baixo</div>
+                            </div>
+                        </div>
+                        
+                        <p class="text-gray-300 text-sm">Todos os parâmetros estão dentro das normas ABNT NBR 6118:2014. Deseja revisar algum cálculo específico?</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Input Area -->
+        <div class="glass-strong border-t border-white/5 p-4 md:p-6">
+            <div class="max-w-4xl mx-auto">
+                <!-- Context Chips -->
+                <div class="flex gap-2 mb-3 overflow-x-auto pb-2 scrollbar-hide">
+                    <button class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-xs text-blue-400 whitespace-nowrap hover:bg-blue-500/20 transition-colors cursor-pointer">
+                        <i data-lucide="image" class="w-3 h-3"></i>
+                        Ver planta baixa
+                    </button>
+                    <button class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs text-gray-400 whitespace-nowrap hover:bg-white/10 transition-colors cursor-pointer">
+                        <i data-lucide="calculator" class="w-3 h-3"></i>
+                        fck 25 MPa
+                    </button>
+                    <button class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs text-gray-400 whitespace-nowrap hover:bg-white/10 transition-colors cursor-pointer">
+                        <i data-lucide="map-pin" class="w-3 h-3"></i>
+                        São Paulo/SP
+                    </button>
+                </div>
+                
+                <div class="relative flex items-end gap-2 bg-white/5 rounded-2xl border border-white/10 p-2 input-glow transition-all">
+                    <button class="p-3 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-colors flex-shrink-0 cursor-pointer" title="Anexar arquivo">
+                        <i data-lucide="plus" class="w-5 h-5"></i>
+                    </button>
+                    
+                    <textarea 
+                        id="messageInput" 
+                        rows="1"
+                        placeholder="Digite sua mensagem... (Ex: 'Calcule a viga V1 para concreto fck 30MPa')" 
+                        class="flex-1 bg-transparent border-none px-2 py-3 text-white placeholder-gray-500 resize-none focus:outline-none max-h-32 custom-scroll"
+                        oninput="autoResize(this)"
+                        onkeydown="handleKeyDown(event)"
+                    ></textarea>
+                    
+                    <button class="p-3 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-colors flex-shrink-0 cursor-pointer" title="Anexar">
+                        <i data-lucide="paperclip" class="w-5 h-5"></i>
+                    </button>
+                    
+                    <button onclick="sendMessage()" class="btn-send p-3 rounded-xl text-white flex-shrink-0 flex items-center justify-center cursor-pointer" title="Enviar mensagem">
+                        <i data-lucide="send" class="w-5 h-5"></i>
+                    </button>
+                </div>
+                
+                <div class="flex justify-between items-center mt-2 text-xs text-gray-600">
+                    <span>Shift + Enter para nova linha</span>
+                    <span>Building.IA pode cometer erros. Verifique cálculos críticos.</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Initialize Lucide Icons when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            lucide.createIcons();
+        });
+        
+        const messagesContainer = document.getElementById('messagesContainer');
+        const messageInput = document.getElementById('messageInput');
+        const sidebar = document.getElementById('sidebar');
+        const mobileOverlay = document.getElementById('mobileOverlay');
+        
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            sidebar.classList.toggle('open');
+            mobileOverlay.classList.toggle('active');
+            document.body.style.overflow = sidebar.classList.contains('open') ? 'hidden' : '';
+        }
+        
+        // Auto-resize textarea
+        function autoResize(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = Math.min(textarea.scrollHeight, 128) + 'px';
+        }
+        
+        // Handle Enter key
+        function handleKeyDown(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        }
+        
+        // Send Message
+        function sendMessage() {
+            const text = messageInput.value.trim();
+            if (!text) return;
+            
+            // Add user message
+            addMessage(text, 'user');
+            messageInput.value = '';
+            messageInput.style.height = 'auto';
+            
+            // Simulate AI thinking and response
+            showTyping();
+            
+            setTimeout(() => {
+                removeTyping();
+                generateAIResponse(text);
+            }, 1500 + Math.random() * 1000);
+        }
+        
+        // Send Suggestion
+        function sendSuggestion(btn) {
+            const text = btn.textContent.trim();
+            addMessage(text, 'user');
+            showTyping();
+            
+            setTimeout(() => {
+                removeTyping();
+                generateAIResponse(text, true);
+            }, 1200);
+        }
+        
+        // Add Message to Chat
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message-enter flex gap-4 max-w-4xl';
+            
+            if (sender === 'user') {
+                messageDiv.innerHTML = `
+                    <div class="flex-1 flex justify-end">
+                        <div class="glass rounded-2xl rounded-tr-sm p-4 max-w-[85%] md:max-w-[70%] bg-blue-600/20 border-blue-500/20">
+                            <p class="text-white text-sm md:text-base">${escapeHtml(text)}</p>
+                        </div>
+                    </div>
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-gray-700 to-gray-600 flex items-center justify-center flex-shrink-0 mt-1">
+                        <i data-lucide="user" class="w-4 h-4 text-white"></i>
+                    </div>
+                `;
+            }
+            
+            messagesContainer.appendChild(messageDiv);
+            lucide.createIcons();
+            scrollToBottom();
+        }
+        
+        // Show Typing Indicator
+        function showTyping() {
+            const typingDiv = document.createElement('div');
+            typingDiv.id = 'typingIndicator';
+            typingDiv.className = 'message-enter flex gap-4 max-w-4xl';
+            typingDiv.innerHTML = `
+                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center flex-shrink-0 mt-1">
+                    <i data-lucide="bot" class="w-4 h-4 text-white"></i>
+                </div>
+                <div class="glass rounded-2xl rounded-tl-sm p-4">
+                    <div class="flex gap-1">
+                        <div class="w-2 h-2 rounded-full bg-gray-400 typing-dot"></div>
+                        <div class="w-2 h-2 rounded-full bg-gray-400 typing-dot"></div>
+                        <div class="w-2 h-2 rounded-full bg-gray-400 typing-dot"></div>
+                    </div>
+                </div>
+            `;
+            messagesContainer.appendChild(typingDiv);
+            lucide.createIcons();
+            scrollToBottom();
+        }
+        
+        // Remove Typing
+        function removeTyping() {
+            const typing = document.getElementById('typingIndicator');
+            if (typing) typing.remove();
+        }
+        
+        // Generate AI Response
+        function generateAIResponse(userText, isSuggestion = false) {
+            let responseHTML = '';
+            
+            const lowerText = userText.toLowerCase();
+            
+            if (lowerText.includes('viga') || lowerText.includes('calcular')) {
+                responseHTML = createBeamCalculationResponse();
+            } else if (lowerText.includes('elétrico') || lowerText.includes('eletrico')) {
+                responseHTML = createElectricalResponse();
+            } else if (lowerText.includes('hidráulico') || lowerText.includes('hidraulico') || lowerText.includes('água')) {
+                responseHTML = createHydraulicResponse();
+            } else if (lowerText.includes('laje')) {
+                responseHTML = createSlabResponse();
+            } else {
+                responseHTML = createGenericResponse();
+            }
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message-enter flex gap-4 max-w-4xl';
+            messageDiv.innerHTML = `
+                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center flex-shrink-0 mt-1">
+                    <i data-lucide="bot" class="w-4 h-4 text-white"></i>
+                </div>
+                <div class="flex-1 space-y-3">
+                    <div class="glass rounded-2xl rounded-tl-sm p-5 text-gray-200">
+                        ${responseHTML}
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="sendSuggestion(this)" class="suggestion-chip px-4 py-2 rounded-full text-sm text-gray-300 bg-white/5 hover:text-white cursor-pointer">
+                            Ver detalhes técnicos
+                        </button>
+                        <button onclick="sendSuggestion(this)" class="suggestion-chip px-4 py-2 rounded-full text-sm text-gray-300 bg-white/5 hover:text-white cursor-pointer">
+                            Gerar memorial descritivo
+                        </button>
+                        <button onclick="sendSuggestion(this)" class="suggestion-chip px-4 py-2 rounded-full text-sm text-gray-300 bg-white/5 hover:text-white cursor-pointer">
+                            Exportar para DWG
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            messagesContainer.appendChild(messageDiv);
+            lucide.createIcons();
+            scrollToBottom();
+        }
+        
+        // Response Templates
+        function createBeamCalculationResponse() {
+            return `
+                <div class="markdown-content">
+                    <p>Realizei o dimensionamento da <strong>Viga V1</strong> (eixo A entre 1-2) com as seguintes características:</p>
+                    
+                    <h3>📐 Dados de Entrada</h3>
+                    <ul>
+                        <li>Comprimento efetivo: <strong>4,20 m</strong></li>
+                        <li>Seção transversal: <strong>14 x 40 cm</strong></li>
+                        <li>Concreto: <strong>fck 25 MPa</strong></li>
+                        <li>Aço: <strong>CA-50</strong></li>
+                        <li>Carga total: <strong>28,5 kN/m</strong></li>
+                    </ul>
+                    
+                    <h3>🔧 Armadura Calculada</h3>
+                    <div class="code-block rounded-lg p-3 my-3 text-sm overflow-x-auto">
+                        <div class="text-gray-400 mb-2">// Seção Transversal</div>
+                        <div class="text-blue-400">As,calc = 4,82 cm²</div>
+                        <div class="text-green-400">As,adot = 5,00 cm² (3 Ø 12,5 mm)</div>
+                        <div class="text-gray-400 mt-2">// Estribos</div>
+                        <div class="text-blue-400">Asw/s = 0,18 cm²/cm</div>
+                        <div class="text-green-400">Estribo: Ø 5,0 mm c/ 12 cm</div>
+                    </div>
+                    
+                    <h3>✅ Verificações</h3>
+                    <ul>
+                        <li>Estado Limite Último (ELU): <span class="text-green-400">OK</span> (Rd = 45,2 kN.m > Sd = 42,8 kN.m)</li>
+                        <li>Estado Limite de Serviço (ELS): <span class="text-green-400">OK</span> (fissuração controlada)</li>
+                        <li>Deslocamento máximo: <strong>L/250 = 16,8 mm</strong> <span class="text-green-400">✓</span></li>
+                    </ul>
+                    
+                    <p class="mt-3 text-sm text-gray-400">Deseja que eu gere o detalhamento completo da armação ou verifique outras vigas?</p>
+                </div>
+            `;
+        }
+        
+        function createElectricalResponse() {
+            return `
+                <div class="markdown-content">
+                    <p>Elaboração do <strong>Projeto Elétrico</strong> concluída com base na NBR 5410:2004.</p>
+                    
+                    <h3>⚡ Quadro de Distribuição QD-1</h3>
+                    <div class="grid grid-cols-2 gap-3 my-3">
+                        <div class="bg-white/5 rounded-lg p-3 border border-white/5">
+                            <div class="text-xs text-gray-500">Disjuntor Geral</div>
+                            <div class="text-lg font-semibold text-white">63A Bipolar</div>
+                        </div>
+                        <div class="bg-white/5 rounded-lg p-3 border border-white/5">
+                            <div class="text-xs text-gray-500">DR</div>
+                            <div class="text-lg font-semibold text-white">63A/30mA</div>
+                        </div>
+                    </div>
+                    
+                    <h3>🔌 Circuitos Definidos</h3>
+                    <table class="w-full text-sm data-table mt-2">
+                        <thead>
+                            <tr class="text-left">
+                                <th class="p-2 text-xs">Circuito</th>
+                                <th class="p-2 text-xs">Descrição</th>
+                                <th class="p-2 text-xs text-right">Potência</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-300">
+                            <tr><td class="p-2">C1</td><td class="p-2">Iluminação Social</td><td class="p-2 text-right">440W</td></tr>
+                            <tr><td class="p-2">C2</td><td class="p-2">Tomadas Sala</td><td class="p-2 text-right">800W</td></tr>
+                            <tr><td class="p-2">C3</td><td class="p-2">Cozinha</td><td class="p-2 text-right">1200W</td></tr>
+                            <tr><td class="p-2">C4</td><td class="p-2">Chuveiro Suíte</td><td class="p-2 text-right">5500W</td></tr>
+                            <tr><td class="p-2">C5</td><td class="p-2">Chuveiro Social</td><td class="p-2 text-right">5500W</td></tr>
+                        </tbody>
+                    </table>
+                    
+                    <p class="mt-3">Todas as instalações atendem aos critérios de queda de tensão máxima de 4% e secção mínima de 1,5 mm² para iluminação e 2,5 mm² para tomadas.</p>
+                </div>
+            `;
+        }
+        
+        function createHydraulicResponse() {
+            return `
+                <div class="markdown-content">
+                    <p>Dimensionamento <strong>Hidráulico e Sanitário</strong> conforme NBR 8160:1999.</p>
+                    
+                    <h3>🚿 Sistema de Água Fria</h3>
+                    <ul>
+                        <li>Pressão na rede: <strong>15 mca</strong></li>
+                        <li>Perda de carga total: <strong>4,2 mca</strong></li>
+                        <li>Pressão residual mínima: <strong>1,0 mca</strong> <span class="text-green-400">✓</span></li>
+                    </ul>
+                    
+                    <div class="code-block rounded-lg p-3 my-3 text-sm">
+                        <div class="text-gray-400 mb-2">// Dimensionamento das Colunas</div>
+                        <div>Coluna de Recalque: <span class="text-blue-400">Ø 25 mm (3/4")</span></div>
+                        <div>Coluna de Descarga: <span class="text-blue-400">Ø 32 mm (1")</span></div>
+                        <div>Ramal de Derivação: <span class="text-blue-400">Ø 20 mm (1/2")</span></div>
+                    </div>
+                    
+                    <h3>🚽 Sistema de Esgoto</h3>
+                    <p>Subsolo com inspeção a cada 20m ou mudança de direção. Ventilação primária dimensionada para Ø 50 mm.</p>
+                    
+                    <h3>♨️ Água Quente (Aquecimento Solar)</h3>
+                    <ul>
+                        <li>Demanda diária: <strong>360 litros</strong></li>
+                        <li>Reservatório térmico: <strong>400 litros</strong></li>
+                        <li>Área de coletores: <strong>2,4 m²</strong></li>
+                    </ul>
+                </div>
+            `;
+        }
+        
+        function createSlabResponse() {
+            return `
+                <div class="markdown-content">
+                    <p>Análise das <strong>Lajes</strong> identificadas na planta:</p>
+                    
+                    <h3>📊 Laje L1 (Sala/Cozinha)</h3>
+                    <ul>
+                        <li>Tipo: <strong>Laje maciça</strong></li>
+                        <li>Espessura: <strong>10 cm</strong></li>
+                        <li>Vão maior: <strong>3,80 m</strong></li>
+                        <li>Carga acidental: <strong>2,0 kN/m²</strong> (residencial)</li>
+                    </ul>
+                    
+                    <div class="bg-white/5 rounded-lg p-3 my-3 border border-white/5">
+                        <div class="text-xs text-gray-500 mb-2">Armadura por metro</div>
+                        <div class="grid grid-cols-2 gap-2 text-sm">
+                            <div>
+                                <span class="text-gray-400">Direção X:</span>
+                                <span class="text-white ml-2">Ø 8mm c/ 15cm</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-400">Direção Y:</span>
+                                <span class="text-white ml-2">Ø 8mm c/ 20cm</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p>A laje atende aos critérios de flecha limite (L/250) sem necessidade de contra-flecha.</p>
+                </div>
+            `;
+        }
+        
+        function createGenericResponse() {
+            return `
+                <div class="markdown-content">
+                    <p>Entendi! Posso ajudar com diversos aspectos do seu projeto:</p>
+                    
+                    <ul>
+                        <li>✅ <strong>Cálculos estruturais</strong> detalhados (vigas, pilares, lajes, fundações)</li>
+                        <li>✅ <strong>Projeto elétrico</strong> completo (quadros, circuitos, SPDA)</li>
+                        <li>✅ <strong>Projeto hidráulico</strong> (água fria, quente, esgoto, pluvial)</li>
+                        <li>✅ <strong>Memorial descritivo</strong> e especificações técnicas</li>
+                        <li>✅ <strong>Orçamento estimado</strong> de materiais</li>
+                        <li>✅ <strong>Verificação normativa</strong> (ABNT, CREA)</li>
+                    </ul>
+                    
+                    <p class="mt-3">O que você gostaria de explorar primeiro? Posso detalhar qualquer um desses itens ou gerar os documentos técnicos completos.</p>
+                </div>
+            `;
+        }
+        
+        // Utility Functions
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+        }
+        
+        function scrollToBottom() {
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+        
+        // Initial scroll
+        setTimeout(scrollToBottom, 100);
+        
+        // Close mobile menu on window resize if open
+        window.addEventListener('resize', function() {
+            if (window.innerWidth >= 768 && sidebar.classList.contains('open')) {
+                toggleMobileMenu();
+            }
+        });
+    </script>
+</body>
+</html>
