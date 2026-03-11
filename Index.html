@@ -3,18 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Building.IA - Análise de Projeto</title>
-    <!-- Tailwind CSS via CDN -->
+    <title>Building.IA - Engenharia Estrutural Inteligente</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-      <!-- CSS Local -->
-    <link rel="stylesheet" href="styles.css">
-        <!-- Tailwind CDN (se ainda precisar de utilitários extras) -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    
     <style>
         * {
             margin: 0;
@@ -26,15 +18,14 @@
             font-family: 'Inter', sans-serif;
             background: #0a0a0a;
             color: #ffffff;
-            overflow: hidden;
-            height: 100vh;
+            overflow-x: hidden;
         }
         
         .font-display {
             font-family: 'Space Grotesk', sans-serif;
         }
         
-        /* Grid Background */
+        /* Grid Background Animation */
         .grid-bg {
             position: fixed;
             top: 0;
@@ -49,825 +40,562 @@
             z-index: 0;
         }
         
-        /* Custom Scrollbar */
-        .custom-scroll::-webkit-scrollbar {
-            width: 6px;
-        }
-        
-        .custom-scroll::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        
-        .custom-scroll::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 3px;
-        }
-        
-        .custom-scroll::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-        
-        /* Message Animations */
-        @keyframes messageSlide {
-            from {
-                opacity: 0;
-                transform: translateY(20px) scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-        
-        .message-enter {
-            animation: messageSlide 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-        
-        /* Typing Indicator */
-        .typing-dot {
-            animation: typingBounce 1.4s infinite ease-in-out both;
-        }
-        
-        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
-        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
-        
-        @keyframes typingBounce {
-            0%, 80%, 100% { transform: scale(0); }
-            40% { transform: scale(1); }
-        }
-        
-        /* Glass Effect */
-        .glass {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        
-        .glass-strong {
-            background: rgba(20, 20, 20, 0.8);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        
-        /* Input Glow */
-        .input-glow:focus {
-            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3), 0 0 20px rgba(59, 130, 246, 0.1);
-        }
-        
-        /* Button Hover Effects */
-        .btn-send {
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .btn-send:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
-        }
-        
-        .btn-send:active {
-            transform: translateY(0);
-        }
-        
-        /* Code Block Styling */
-        .code-block {
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            font-family: 'Courier New', monospace;
-        }
-        
-        /* Table Styling */
-        .data-table {
-            border-collapse: separate;
-            border-spacing: 0;
-        }
-        
-        .data-table th {
-            background: rgba(59, 130, 246, 0.1);
-            border-bottom: 1px solid rgba(59, 130, 246, 0.3);
-        }
-        
-        .data-table td {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        
-        /* Sidebar Item Hover */
-        .sidebar-item {
-            transition: all 0.2s ease;
-        }
-        
-        .sidebar-item:hover {
-            background: rgba(255, 255, 255, 0.05);
-            transform: translateX(4px);
-        }
-        
-        .sidebar-item.active {
-            background: rgba(59, 130, 246, 0.1);
-            border-left: 3px solid #3b82f6;
-        }
-        
-        /* Pulse Animation for Live Indicator */
-        .live-pulse {
-            position: relative;
-        }
-        
-        .live-pulse::before {
+        .grid-bg::before {
             content: '';
             position: absolute;
-            inset: -4px;
-            border-radius: 50%;
-            border: 2px solid #10b981;
-            animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, transparent 0%, #0a0a0a 100%);
         }
         
-        @keyframes pulse-ring {
-            0% { transform: scale(0.8); opacity: 0.5; }
-            100% { transform: scale(2); opacity: 0; }
-        }
-        
-        /* Suggestion Chips */
-        .suggestion-chip {
-            transition: all 0.2s ease;
+        /* Floating Elements */
+        .float-element {
+            position: absolute;
             border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            animation: float 20s infinite ease-in-out;
         }
         
-        .suggestion-chip:hover {
-            background: rgba(59, 130, 246, 0.1);
-            border-color: rgba(59, 130, 246, 0.5);
-            transform: translateY(-1px);
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(2deg); }
         }
         
-        /* File Preview Card */
-        .file-preview {
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(249, 115, 22, 0.05) 100%);
-        }
-        
-        /* Markdown Content */
-        .markdown-content h3 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin: 1rem 0 0.5rem;
-            color: #60a5fa;
-        }
-        
-        .markdown-content p {
-            margin-bottom: 0.75rem;
-            line-height: 1.6;
-        }
-        
-        .markdown-content ul {
-            margin-left: 1.5rem;
-            margin-bottom: 0.75rem;
-        }
-        
-        .markdown-content li {
-            margin-bottom: 0.25rem;
-            position: relative;
-        }
-        
-        .markdown-content li::marker {
-            color: #3b82f6;
-        }
-        
-        /* Mobile Menu */
-        .mobile-menu {
-            transform: translateX(-100%);
-            transition: transform 0.3s ease;
-        }
-        
-        .mobile-menu.open {
-            transform: translateX(0);
-        }
-        
-        /* Overlay */
-        .overlay {
-            opacity: 0;
+        /* Glow Effects */
+        .glow {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
             pointer-events: none;
+            filter: blur(60px);
+        }
+        
+        .glow-orange {
+            background: radial-gradient(circle, rgba(249, 115, 22, 0.1) 0%, transparent 70%);
+        }
+        
+        /* Upload Zone */
+        .upload-zone {
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.02);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .upload-zone::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #3b82f6, #f97316, #3b82f6);
+            border-radius: inherit;
+            z-index: -1;
+            opacity: 0;
             transition: opacity 0.3s ease;
         }
         
-        .overlay.active {
+        .upload-zone:hover::before,
+        .upload-zone.dragover::before {
             opacity: 1;
-            pointer-events: all;
+        }
+        
+        .upload-zone:hover,
+        .upload-zone.dragover {
+            border-color: transparent;
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+        
+        /* Scanning Animation */
+        .scan-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #3b82f6, transparent);
+            box-shadow: 0 0 10px #3b82f6;
+            opacity: 0;
+        }
+        
+        .upload-zone.processing .scan-line {
+            animation: scan 2s linear infinite;
+            opacity: 1;
+        }
+        
+        @keyframes scan {
+            0% { top: 0%; }
+            100% { top: 100%; }
+        }
+        
+        /* Processing Steps */
+        .step-item {
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 0.5s ease;
+        }
+        
+        .step-item.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .step-item.completed {
+            opacity: 0.6;
+        }
+        
+        .step-icon {
+            transition: all 0.3s ease;
+        }
+        
+        .step-item.active .step-icon {
+            color: #3b82f6;
+            transform: scale(1.1);
+        }
+        
+        /* Blueprint Pattern */
+        .blueprint-pattern {
+            background-image: 
+                linear-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        
+        /* Button Hover */
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
+        }
+        
+        /* Text Gradient */
+        .text-gradient {
+            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .text-gradient-blue {
+            background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Input Styling */
+        .chat-input {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .chat-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        /* Loading Spinner */
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top-color: #3b82f6;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Feature Cards */
+        .feature-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(59, 130, 246, 0.3);
+            transform: translateY(-5px);
+        }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
         }
     </style>
 </head>
-<body class="flex h-screen">
+<body class="min-h-screen flex flex-col relative">
+    <!-- Background Elements -->
     <div class="grid-bg"></div>
+    <div class="glow top-0 left-1/4"></div>
+    <div class="glow glow-orange bottom-0 right-1/4"></div>
     
-    <!-- Mobile Overlay -->
-    <div id="mobileOverlay" class="overlay fixed inset-0 bg-black/60 z-40 md:hidden" onclick="toggleMobileMenu()"></div>
-    
-    <!-- Sidebar -->
-    <aside id="sidebar" class="mobile-menu fixed md:relative z-50 w-80 h-full glass-strong flex flex-col border-r border-white/5 md:transform-none">
-        <!-- Logo -->
-        <div class="p-6 border-b border-white/5 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center shadow-lg shadow-blue-500/20">
-                    <i data-lucide="building-2" class="w-6 h-6 text-white"></i>
-                </div>
-                <div>
-                    <span class="font-display text-xl font-bold">Building<span class="text-blue-500">.IA</span></span>
-                    <div class="flex items-center gap-2 text-xs text-gray-500 mt-0.5">
-                        <span class="w-1.5 h-1.5 rounded-full bg-green-500 live-pulse"></span>
-                        <span>Online</span>
-                    </div>
-                </div>
+    <!-- Floating Decorative Elements -->
+    <div class="float-element w-32 h-32 rounded-lg top-20 left-10 hidden lg:block" style="animation-delay: 0s;"></div>
+    <div class="float-element w-24 h-24 rounded-full top-40 right-20 hidden lg:block" style="animation-delay: 5s;"></div>
+    <div class="float-element w-40 h-20 rounded-xl bottom-32 left-20 hidden lg:block" style="animation-delay: 10s;"></div>
+
+    <!-- Header -->
+    <header class="relative z-10 w-full px-6 py-6 flex justify-between items-center border-b border-white/5 backdrop-blur-sm">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center shadow-lg shadow-blue-500/20">
+                <i data-lucide="building-2" class="w-6 h-6 text-white"></i>
             </div>
-            <button onclick="toggleMobileMenu()" class="md:hidden text-gray-400 hover:text-white">
-                <i data-lucide="x" class="w-6 h-6"></i>
-            </button>
+            <span class="font-display text-2xl font-bold tracking-tight">
+                Building<span class="text-blue-500">.IA</span>
+            </span>
         </div>
-        
-        <!-- Project Info -->
-        <div class="p-4 border-b border-white/5">
-            <div class="file-preview rounded-xl p-4 border border-white/10">
-                <div class="flex items-start gap-3">
-                    <div class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center flex-shrink-0">
-                        <i data-lucide="file-text" class="w-5 h-5 text-blue-400"></i>
-                    </div>
-                    <div class="flex-1 min-w-0">
-                        <h4 class="font-medium text-sm text-white truncate">Planta_Residencial.dwg</h4>
-                        <p class="text-xs text-gray-500 mt-1">2.4 MB • Processado</p>
-                        <div class="flex gap-2 mt-2">
-                            <span class="text-[10px] px-2 py-0.5 rounded-full bg-green-500/10 text-green-400 border border-green-500/20">OK</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Navigation -->
-        <nav class="flex-1 overflow-y-auto custom-scroll p-4 space-y-1">
-            <div class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-3 px-2">Seções do Projeto</div>
-            
-            <button class="sidebar-item active w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-left">
-                <i data-lucide="message-square" class="w-4 h-4 text-blue-400"></i>
-                <span>Conversa</span>
-            </button>
-            
-            <button class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-400 text-left hover:text-white">
-                <i data-lucide="calculator" class="w-4 h-4"></i>
-                <span>Cálculos Estruturais</span>
-            </button>
-            
-            <button class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-400 text-left hover:text-white">
-                <i data-lucide="zap" class="w-4 h-4"></i>
-                <span>Projeto Elétrico</span>
-            </button>
-            
-            <button class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-400 text-left hover:text-white">
-                <i data-lucide="droplets" class="w-4 h-4"></i>
-                <span>Projeto Hidráulico</span>
-            </button>
-            
-            <button class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-400 text-left hover:text-white">
-                <i data-lucide="clipboard-list" class="w-4 h-4"></i>
-                <span>Memorial Descritivo</span>
-            </button>
-            
-            <button class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-400 text-left hover:text-white">
-                <i data-lucide="hard-hat" class="w-4 h-4"></i>
-                <span>Especificações</span>
-            </button>
-            
-            <div class="text-xs font-medium text-gray-500 uppercase tracking-wider mt-6 mb-3 px-2">Ações</div>
-            
-            <button class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-400 text-left hover:text-white">
-                <i data-lucide="download" class="w-4 h-4"></i>
-                <span>Exportar Projeto</span>
-            </button>
-            
-            <button class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-400 text-left hover:text-white">
-                <i data-lucide="share-2" class="w-4 h-4"></i>
-                <span>Compartilhar</span>
+        <nav class="hidden md:flex items-center gap-8 text-sm text-gray-400">
+            <a href="#" class="hover:text-white transition-colors">Como Funciona</a>
+            <a href="#" class="hover:text-white transition-colors">Exemplos</a>
+            <a href="#" class="hover:text-white transition-colors">Preços</a>
+            <button class="btn-primary px-5 py-2.5 rounded-full text-white font-medium text-sm">
+                Começar Agora
             </button>
         </nav>
+        <button class="md:hidden text-white">
+            <i data-lucide="menu" class="w-6 h-6"></i>
+        </button>
+    </header>
+
+    <!-- Main Content -->
+    <main class="relative z-10 flex-1 flex flex-col items-center justify-center px-4 py-12 md:py-20">
         
-        <!-- User Profile -->
-        <div class="p-4 border-t border-white/5">
-            <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-full bg-gradient-to-br from-gray-700 to-gray-600 flex items-center justify-center">
-                    <i data-lucide="user" class="w-4 h-4 text-gray-300"></i>
-                </div>
-                <div class="flex-1">
-                    <p class="text-sm font-medium text-white">Eng. Carlos Silva</p>
-                    <p class="text-xs text-gray-500">CREA-SP 123456</p>
-                </div>
-                <button class="text-gray-500 hover:text-white transition-colors">
-                    <i data-lucide="settings" class="w-4 h-4"></i>
-                </button>
-            </div>
-        </div>
-    </aside>
-    
-    <!-- Main Chat Area -->
-    <main class="relative z-10 flex-1 flex flex-col min-w-0 bg-gradient-to-b from-transparent to-black/20 w-full">
-        <!-- Mobile Header -->
-        <header class="glass-strong border-b border-white/5 p-4 flex items-center justify-between md:hidden">
-            <div class="flex items-center gap-3">
-                <button onclick="toggleMobileMenu()" class="text-gray-400 hover:text-white">
-                    <i data-lucide="menu" class="w-6 h-6"></i>
-                </button>
-                <span class="font-display font-bold text-lg">Building.IA</span>
-            </div>
-            <div class="flex items-center gap-2">
+        <!-- Hero Section -->
+        <div class="max-w-4xl mx-auto text-center mb-12 space-y-6">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm text-gray-400 mb-4">
                 <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-            </div>
-        </header>
-        
-        <!-- Chat Header -->
-        <div class="glass border-b border-white/5 px-6 py-4 flex items-center justify-between hidden md:flex">
-            <div class="flex items-center gap-4">
-                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center relative">
-                    <i data-lucide="bot" class="w-5 h-5 text-white"></i>
-                    <div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-gray-900"></div>
-                </div>
-                <div>
-                    <h2 class="font-display font-semibold text-white">Assistente Building.IA</h2>
-                    <p class="text-xs text-gray-400 flex items-center gap-2">
-                        <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
-                        Analisando projeto em tempo real
-                    </p>
-                </div>
-            </div>
-            <div class="flex items-center gap-3">
-                <button class="p-2 rounded-lg hover:bg-white/5 text-gray-400 hover:text-white transition-colors" title="Histórico">
-                    <i data-lucide="history" class="w-5 h-5"></i>
-                </button>
-                <button class="p-2 rounded-lg hover:bg-white/5 text-gray-400 hover:text-white transition-colors" title="Mais opções">
-                    <i data-lucide="more-vertical" class="w-5 h-5"></i>
-                </button>
-            </div>
-        </div>
-        
-        <!-- Messages Container -->
-        <div id="messagesContainer" class="flex-1 overflow-y-auto custom-scroll p-4 md:p-6 space-y-6">
-            <!-- Welcome Message -->
-            <div class="message-enter flex gap-4 max-w-4xl">
-                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center flex-shrink-0 mt-1">
-                    <i data-lucide="bot" class="w-4 h-4 text-white"></i>
-                </div>
-                <div class="flex-1 space-y-3">
-                    <div class="glass rounded-2xl rounded-tl-sm p-5 text-gray-200 leading-relaxed">
-                        <p class="mb-3">Olá! Sou o assistente de IA da <strong class="text-blue-400">Building.IA</strong>. Recebi sua planta baixa e já processei todos os cálculos.</p>
-                        <p class="mb-3">Detectei uma <strong>residência unifamiliar</strong> de 180m² com:</p>
-                        <ul class="list-disc list-inside space-y-1 text-gray-300 mb-3 ml-2">
-                            <li>2 pavimentos</li>
-                            <li>Estrutura em concreto armado</li>
-                            <li>3 dormitórios, 1 suíte</li>
-                            <li>Cozinha integrada à sala</li>
-                        </ul>
-                        <p>Como posso ajudar? Você pode me perguntar sobre:</p>
-                    </div>
-                    
-                    <!-- Quick Suggestions -->
-                    <div class="flex flex-wrap gap-2">
-                        <button onclick="sendSuggestion(this)" class="suggestion-chip px-4 py-2 rounded-full text-sm text-gray-300 bg-white/5 hover:text-white cursor-pointer">
-                            Mostrar cálculo de lajes
-                        </button>
-                        <button onclick="sendSuggestion(this)" class="suggestion-chip px-4 py-2 rounded-full text-sm text-gray-300 bg-white/5 hover:text-white cursor-pointer">
-                            Dimensionar vigas principais
-                        </button>
-                        <button onclick="sendSuggestion(this)" class="suggestion-chip px-4 py-2 rounded-full text-sm text-gray-300 bg-white/5 hover:text-white cursor-pointer">
-                            Gerar projeto elétrico
-                        </button>
-                        <button onclick="sendSuggestion(this)" class="suggestion-chip px-4 py-2 rounded-full text-sm text-gray-300 bg-white/5 hover:text-white cursor-pointer">
-                            Calcular hidráulica
-                        </button>
-                    </div>
-                </div>
+                IA de Engenharia Estrutural Online
             </div>
             
-            <!-- Initial Analysis Message -->
-            <div class="message-enter flex gap-4 max-w-4xl" style="animation-delay: 0.2s">
-                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center flex-shrink-0 mt-1">
-                    <i data-lucide="bot" class="w-4 h-4 text-white"></i>
-                </div>
-                <div class="flex-1">
-                    <div class="glass rounded-2xl rounded-tl-sm p-5">
-                        <div class="flex items-center gap-2 mb-3">
-                            <i data-lucide="sparkles" class="w-4 h-4 text-yellow-500"></i>
-                            <span class="font-display font-semibold text-white">Análise Preliminar Concluída</span>
-                        </div>
-                        
-                        <div class="grid grid-cols-3 gap-3 mb-4">
-                            <div class="bg-white/5 rounded-lg p-3 border border-white/5">
-                                <div class="text-xs text-gray-500 mb-1">Carga Total</div>
-                                <div class="text-lg font-semibold text-white">145 kN/m²</div>
-                            </div>
-                            <div class="bg-white/5 rounded-lg p-3 border border-white/5">
-                                <div class="text-xs text-gray-500 mb-1">Vão Máximo</div>
-                                <div class="text-lg font-semibold text-white">4.2 m</div>
-                            </div>
-                            <div class="bg-white/5 rounded-lg p-3 border border-white/5">
-                                <div class="text-xs text-gray-500 mb-1">Nível de Risco</div>
-                                <div class="text-lg font-semibold text-green-400">Baixo</div>
-                            </div>
-                        </div>
-                        
-                        <p class="text-gray-300 text-sm">Todos os parâmetros estão dentro das normas ABNT NBR 6118:2014. Deseja revisar algum cálculo específico?</p>
+            <h1 class="font-display text-5xl md:text-7xl font-bold leading-tight">
+                <span class="text-gradient">Projetos Estruturais</span><br>
+                <span class="text-gradient-blue">em Segundos</span>
+            </h1>
+            
+            <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
+                Envie sua planta baixa e nossa inteligência artificial calcula toda a estrutura, 
+                projeto elétrico e hidráulico automaticamente com precisão técnica.
+            </p>
+        </div>
+
+        <!-- Upload Section -->
+        <div class="w-full max-w-3xl mx-auto mb-16">
+            <div id="uploadZone" class="upload-zone rounded-2xl p-8 md:p-12 text-center cursor-pointer group">
+                <div class="scan-line"></div>
+                
+                <input type="file" id="fileInput" class="hidden" accept=".dwg,.pdf,.png,.jpg,.jpeg">
+                
+                <div id="uploadContent" class="space-y-6">
+                    <div class="w-20 h-20 mx-auto rounded-2xl bg-white/5 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <i data-lucide="upload-cloud" class="w-10 h-10 text-blue-500"></i>
                     </div>
+                    
+                    <div>
+                        <h3 class="font-display text-xl font-semibold mb-2 text-white">
+                            Arraste sua planta baixa aqui
+                        </h3>
+                        <p class="text-gray-400 text-sm mb-4">
+                            ou clique para selecionar arquivo
+                        </p>
+                        <div class="flex justify-center gap-2 text-xs text-gray-500">
+                            <span class="px-3 py-1 rounded-full bg-white/5 border border-white/10">DWG</span>
+                            <span class="px-3 py-1 rounded-full bg-white/5 border border-white/10">PDF</span>
+                            <span class="px-3 py-1 rounded-full bg-white/5 border border-white/10">PNG/JPG</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Processing State -->
+                <div id="processingContent" class="hidden space-y-6">
+                    <div class="w-20 h-20 mx-auto rounded-2xl bg-blue-500/10 flex items-center justify-center">
+                        <div class="spinner"></div>
+                    </div>
+                    <h3 class="font-display text-xl font-semibold text-white">Analisando planta baixa...</h3>
+                    
+                    <!-- Processing Steps -->
+                    <div class="max-w-md mx-auto space-y-3 text-left mt-6">
+                        <div class="step-item flex items-center gap-3 p-3 rounded-lg bg-white/5" data-step="1">
+                            <i data-lucide="scan" class="w-5 h-5 text-gray-500 step-icon"></i>
+                            <span class="text-sm text-gray-300">Escaneando dimensões e cotas</span>
+                        </div>
+                        <div class="step-item flex items-center gap-3 p-3 rounded-lg bg-white/5" data-step="2">
+                            <i data-lucide="calculator" class="w-5 h-5 text-gray-500 step-icon"></i>
+                            <span class="text-sm text-gray-300">Calculando cargas estruturais</span>
+                        </div>
+                        <div class="step-item flex items-center gap-3 p-3 rounded-lg bg-white/5" data-step="3">
+                            <i data-lucide="zap" class="w-5 h-5 text-gray-500 step-icon"></i>
+                            <span class="text-sm text-gray-300">Dimensionando projeto elétrico</span>
+                        </div>
+                        <div class="step-item flex items-center gap-3 p-3 rounded-lg bg-white/5" data-step="4">
+                            <i data-lucide="droplets" class="w-5 h-5 text-gray-500 step-icon"></i>
+                            <span class="text-sm text-gray-300">Calculando hidráulica e esgoto</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Success State -->
+                <div id="successContent" class="hidden space-y-6">
+                    <div class="w-20 h-20 mx-auto rounded-2xl bg-green-500/10 flex items-center justify-center">
+                        <i data-lucide="check-circle" class="w-10 h-10 text-green-500"></i>
+                    </div>
+                    <h3 class="font-display text-xl font-semibold text-white">Projeto Completo!</h3>
+                    <p class="text-gray-400">Todos os cálculos foram finalizados com sucesso.</p>
+                    <button onclick="resetUpload()" class="btn-primary px-8 py-3 rounded-full text-white font-medium inline-flex items-center gap-2">
+                        <i data-lucide="download" class="w-4 h-4"></i>
+                        Baixar Projeto Completo
+                    </button>
                 </div>
             </div>
         </div>
-        
-        <!-- Input Area -->
-        <div class="glass-strong border-t border-white/5 p-4 md:p-6">
-            <div class="max-w-4xl mx-auto">
-                <!-- Context Chips -->
-                <div class="flex gap-2 mb-3 overflow-x-auto pb-2 scrollbar-hide">
-                    <button class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-xs text-blue-400 whitespace-nowrap hover:bg-blue-500/20 transition-colors cursor-pointer">
-                        <i data-lucide="image" class="w-3 h-3"></i>
-                        Ver planta baixa
-                    </button>
-                    <button class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs text-gray-400 whitespace-nowrap hover:bg-white/10 transition-colors cursor-pointer">
-                        <i data-lucide="calculator" class="w-3 h-3"></i>
-                        fck 25 MPa
-                    </button>
-                    <button class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs text-gray-400 whitespace-nowrap hover:bg-white/10 transition-colors cursor-pointer">
-                        <i data-lucide="map-pin" class="w-3 h-3"></i>
-                        São Paulo/SP
-                    </button>
-                </div>
-                
-                <div class="relative flex items-end gap-2 bg-white/5 rounded-2xl border border-white/10 p-2 input-glow transition-all">
-                    <button class="p-3 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-colors flex-shrink-0 cursor-pointer" title="Anexar arquivo">
-                        <i data-lucide="plus" class="w-5 h-5"></i>
-                    </button>
-                    
-                    <textarea 
-                        id="messageInput" 
-                        rows="1"
-                        placeholder="Digite sua mensagem... (Ex: 'Calcule a viga V1 para concreto fck 30MPa')" 
-                        class="flex-1 bg-transparent border-none px-2 py-3 text-white placeholder-gray-500 resize-none focus:outline-none max-h-32 custom-scroll"
-                        oninput="autoResize(this)"
-                        onkeydown="handleKeyDown(event)"
-                    ></textarea>
-                    
-                    <button class="p-3 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-colors flex-shrink-0 cursor-pointer" title="Anexar">
-                        <i data-lucide="paperclip" class="w-5 h-5"></i>
-                    </button>
-                    
-                    <button onclick="sendMessage()" class="btn-send p-3 rounded-xl text-white flex-shrink-0 flex items-center justify-center cursor-pointer" title="Enviar mensagem">
+
+        <!-- Chat Input Section -->
+        <div class="w-full max-w-3xl mx-auto mb-20">
+            <div class="relative">
+                <div class="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-orange-500/20 rounded-2xl blur-xl opacity-50"></div>
+                <div class="relative bg-gray-900/80 backdrop-blur-xl rounded-2xl border border-white/10 p-2 flex items-center gap-2">
+                    <div class="pl-4 text-gray-500">
+                        <i data-lucide="message-square" class="w-5 h-5"></i>
+                    </div>
+                    <input 
+                        type="text" 
+                        placeholder="Descreva modificações ou especificações técnicas..." 
+                        class="chat-input flex-1 bg-transparent border-none px-4 py-4 text-white placeholder-gray-500 focus:outline-none"
+                    >
+                    <button class="btn-primary p-3 rounded-xl text-white hover:scale-105 transition-transform">
                         <i data-lucide="send" class="w-5 h-5"></i>
                     </button>
                 </div>
-                
-                <div class="flex justify-between items-center mt-2 text-xs text-gray-600">
-                    <span>Shift + Enter para nova linha</span>
-                    <span>Building.IA pode cometer erros. Verifique cálculos críticos.</span>
+                <p class="text-center text-xs text-gray-600 mt-3">
+                    Ex: "Calcular para concreto armado fck 25MPa" ou "Incluir sistema de ar-condicionado split"
+                </p>
+            </div>
+        </div>
+
+        <!-- Features Grid -->
+        <div class="w-full max-w-6xl mx-auto grid md:grid-cols-3 gap-6 px-4">
+            <div class="feature-card rounded-2xl p-6 space-y-4">
+                <div class="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center">
+                    <i data-lucide="shield" class="w-6 h-6 text-blue-500"></i>
                 </div>
+                <h3 class="font-display text-lg font-semibold">Cálculo Estrutural</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">
+                    Dimensionamento automático de vigas, pilares, lajes e fundações conforme normas técnicas ABNT.
+                </p>
+            </div>
+            
+            <div class="feature-card rounded-2xl p-6 space-y-4">
+                <div class="w-12 h-12 rounded-xl bg-orange-500/10 flex items-center justify-center">
+                    <i data-lucide="zap" class="w-6 h-6 text-orange-500"></i>
+                </div>
+                <h3 class="font-display text-lg font-semibold">Projeto Elétrico</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">
+                    Circuitos, quadros de distribuição, aterramento e SPDA calculados automaticamente pela IA.
+                </p>
+            </div>
+            
+            <div class="feature-card rounded-2xl p-6 space-y-4">
+                <div class="w-12 h-12 rounded-xl bg-cyan-500/10 flex items-center justify-center">
+                    <i data-lucide="droplets" class="w-6 h-6 text-cyan-500"></i>
+                </div>
+                <h3 class="font-display text-lg font-semibold">Projeto Hidráulico</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">
+                    Sistemas de água fria, quente, esgoto sanitário e pluvial dimensionados com precisão hidráulica.
+                </p>
+            </div>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="w-full max-w-4xl mx-auto mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div>
+                <div class="font-display text-3xl font-bold text-white mb-1">10k+</div>
+                <div class="text-sm text-gray-500">Projetos Gerados</div>
+            </div>
+            <div>
+                <div class="font-display text-3xl font-bold text-white mb-1">99%</div>
+                <div class="text-sm text-gray-500">Precisão Técnica</div>
+            </div>
+            <div>
+                <div class="font-display text-3xl font-bold text-white mb-1">&lt;30s</div>
+                <div class="text-sm text-gray-500">Tempo Médio</div>
+            </div>
+            <div>
+                <div class="font-display text-3xl font-bold text-white mb-1">24/7</div>
+                <div class="text-sm text-gray-500">Disponibilidade</div>
             </div>
         </div>
     </main>
 
+    <!-- Footer -->
+    <footer class="relative z-10 border-t border-white/5 py-8 px-6 mt-12">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
+            <div class="flex items-center gap-2">
+                <i data-lucide="building-2" class="w-4 h-4"></i>
+                <span class="font-display font-semibold text-gray-400">Building.IA</span>
+                <span>© 2024</span>
+            </div>
+            <div class="flex gap-6">
+                <a href="#" class="hover:text-white transition-colors">Termos de Uso</a>
+                <a href="#" class="hover:text-white transition-colors">Privacidade</a>
+                <a href="#" class="hover:text-white transition-colors">Contato</a>
+            </div>
+        </div>
+    </footer>
+
     <script>
-        // Initialize Lucide Icons when DOM is loaded
-        document.addEventListener('DOMContentLoaded', function() {
-            lucide.createIcons();
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Upload Zone Logic
+        const uploadZone = document.getElementById('uploadZone');
+        const fileInput = document.getElementById('fileInput');
+        const uploadContent = document.getElementById('uploadContent');
+        const processingContent = document.getElementById('processingContent');
+        const successContent = document.getElementById('successContent');
+
+        // Drag and Drop Events
+        uploadZone.addEventListener('click', () => fileInput.click());
+        
+        uploadZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadZone.classList.add('dragover');
         });
-        
-        const messagesContainer = document.getElementById('messagesContainer');
-        const messageInput = document.getElementById('messageInput');
-        const sidebar = document.getElementById('sidebar');
-        const mobileOverlay = document.getElementById('mobileOverlay');
-        
-        // Mobile Menu Toggle
-        function toggleMobileMenu() {
-            sidebar.classList.toggle('open');
-            mobileOverlay.classList.toggle('active');
-            document.body.style.overflow = sidebar.classList.contains('open') ? 'hidden' : '';
-        }
-        
-        // Auto-resize textarea
-        function autoResize(textarea) {
-            textarea.style.height = 'auto';
-            textarea.style.height = Math.min(textarea.scrollHeight, 128) + 'px';
-        }
-        
-        // Handle Enter key
-        function handleKeyDown(e) {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                sendMessage();
-            }
-        }
-        
-        // Send Message
-        function sendMessage() {
-            const text = messageInput.value.trim();
-            if (!text) return;
+
+        uploadZone.addEventListener('dragleave', () => {
+            uploadZone.classList.remove('dragover');
+        });
+
+        uploadZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadZone.classList.remove('dragover');
+            handleFile(e.dataTransfer.files[0]);
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files[0]) handleFile(e.target.files[0]);
+        });
+
+        function handleFile(file) {
+            if (!file) return;
             
-            // Add user message
-            addMessage(text, 'user');
-            messageInput.value = '';
-            messageInput.style.height = 'auto';
+            // Start processing animation
+            uploadContent.classList.add('hidden');
+            processingContent.classList.remove('hidden');
+            uploadZone.classList.add('processing');
             
-            // Simulate AI thinking and response
-            showTyping();
+            // Simulate processing steps
+            const steps = document.querySelectorAll('.step-item');
+            let currentStep = 0;
             
-            setTimeout(() => {
-                removeTyping();
-                generateAIResponse(text);
-            }, 1500 + Math.random() * 1000);
-        }
-        
-        // Send Suggestion
-        function sendSuggestion(btn) {
-            const text = btn.textContent.trim();
-            addMessage(text, 'user');
-            showTyping();
-            
-            setTimeout(() => {
-                removeTyping();
-                generateAIResponse(text, true);
-            }, 1200);
-        }
-        
-        // Add Message to Chat
-        function addMessage(text, sender) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = 'message-enter flex gap-4 max-w-4xl';
-            
-            if (sender === 'user') {
-                messageDiv.innerHTML = `
-                    <div class="flex-1 flex justify-end">
-                        <div class="glass rounded-2xl rounded-tr-sm p-4 max-w-[85%] md:max-w-[70%] bg-blue-600/20 border-blue-500/20">
-                            <p class="text-white text-sm md:text-base">${escapeHtml(text)}</p>
-                        </div>
-                    </div>
-                    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-gray-700 to-gray-600 flex items-center justify-center flex-shrink-0 mt-1">
-                        <i data-lucide="user" class="w-4 h-4 text-white"></i>
-                    </div>
-                `;
-            }
-            
-            messagesContainer.appendChild(messageDiv);
-            lucide.createIcons();
-            scrollToBottom();
-        }
-        
-        // Show Typing Indicator
-        function showTyping() {
-            const typingDiv = document.createElement('div');
-            typingDiv.id = 'typingIndicator';
-            typingDiv.className = 'message-enter flex gap-4 max-w-4xl';
-            typingDiv.innerHTML = `
-                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center flex-shrink-0 mt-1">
-                    <i data-lucide="bot" class="w-4 h-4 text-white"></i>
-                </div>
-                <div class="glass rounded-2xl rounded-tl-sm p-4">
-                    <div class="flex gap-1">
-                        <div class="w-2 h-2 rounded-full bg-gray-400 typing-dot"></div>
-                        <div class="w-2 h-2 rounded-full bg-gray-400 typing-dot"></div>
-                        <div class="w-2 h-2 rounded-full bg-gray-400 typing-dot"></div>
-                    </div>
-                </div>
-            `;
-            messagesContainer.appendChild(typingDiv);
-            lucide.createIcons();
-            scrollToBottom();
-        }
-        
-        // Remove Typing
-        function removeTyping() {
-            const typing = document.getElementById('typingIndicator');
-            if (typing) typing.remove();
-        }
-        
-        // Generate AI Response
-        function generateAIResponse(userText, isSuggestion = false) {
-            let responseHTML = '';
-            
-            const lowerText = userText.toLowerCase();
-            
-            if (lowerText.includes('viga') || lowerText.includes('calcular')) {
-                responseHTML = createBeamCalculationResponse();
-            } else if (lowerText.includes('elétrico') || lowerText.includes('eletrico')) {
-                responseHTML = createElectricalResponse();
-            } else if (lowerText.includes('hidráulico') || lowerText.includes('hidraulico') || lowerText.includes('água')) {
-                responseHTML = createHydraulicResponse();
-            } else if (lowerText.includes('laje')) {
-                responseHTML = createSlabResponse();
-            } else {
-                responseHTML = createGenericResponse();
-            }
-            
-            const messageDiv = document.createElement('div');
-            messageDiv.className = 'message-enter flex gap-4 max-w-4xl';
-            messageDiv.innerHTML = `
-                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center flex-shrink-0 mt-1">
-                    <i data-lucide="bot" class="w-4 h-4 text-white"></i>
-                </div>
-                <div class="flex-1 space-y-3">
-                    <div class="glass rounded-2xl rounded-tl-sm p-5 text-gray-200">
-                        ${responseHTML}
-                    </div>
-                    <div class="flex flex-wrap gap-2">
-                        <button onclick="sendSuggestion(this)" class="suggestion-chip px-4 py-2 rounded-full text-sm text-gray-300 bg-white/5 hover:text-white cursor-pointer">
-                            Ver detalhes técnicos
-                        </button>
-                        <button onclick="sendSuggestion(this)" class="suggestion-chip px-4 py-2 rounded-full text-sm text-gray-300 bg-white/5 hover:text-white cursor-pointer">
-                            Gerar memorial descritivo
-                        </button>
-                        <button onclick="sendSuggestion(this)" class="suggestion-chip px-4 py-2 rounded-full text-sm text-gray-300 bg-white/5 hover:text-white cursor-pointer">
-                            Exportar para DWG
-                        </button>
-                    </div>
-                </div>
-            `;
-            
-            messagesContainer.appendChild(messageDiv);
-            lucide.createIcons();
-            scrollToBottom();
-        }
-        
-        // Response Templates
-        function createBeamCalculationResponse() {
-            return `
-                <div class="markdown-content">
-                    <p>Realizei o dimensionamento da <strong>Viga V1</strong> (eixo A entre 1-2) com as seguintes características:</p>
-                    
-                    <h3>📐 Dados de Entrada</h3>
-                    <ul>
-                        <li>Comprimento efetivo: <strong>4,20 m</strong></li>
-                        <li>Seção transversal: <strong>14 x 40 cm</strong></li>
-                        <li>Concreto: <strong>fck 25 MPa</strong></li>
-                        <li>Aço: <strong>CA-50</strong></li>
-                        <li>Carga total: <strong>28,5 kN/m</strong></li>
-                    </ul>
-                    
-                    <h3>🔧 Armadura Calculada</h3>
-                    <div class="code-block rounded-lg p-3 my-3 text-sm overflow-x-auto">
-                        <div class="text-gray-400 mb-2">// Seção Transversal</div>
-                        <div class="text-blue-400">As,calc = 4,82 cm²</div>
-                        <div class="text-green-400">As,adot = 5,00 cm² (3 Ø 12,5 mm)</div>
-                        <div class="text-gray-400 mt-2">// Estribos</div>
-                        <div class="text-blue-400">Asw/s = 0,18 cm²/cm</div>
-                        <div class="text-green-400">Estribo: Ø 5,0 mm c/ 12 cm</div>
-                    </div>
-                    
-                    <h3>✅ Verificações</h3>
-                    <ul>
-                        <li>Estado Limite Último (ELU): <span class="text-green-400">OK</span> (Rd = 45,2 kN.m > Sd = 42,8 kN.m)</li>
-                        <li>Estado Limite de Serviço (ELS): <span class="text-green-400">OK</span> (fissuração controlada)</li>
-                        <li>Deslocamento máximo: <strong>L/250 = 16,8 mm</strong> <span class="text-green-400">✓</span></li>
-                    </ul>
-                    
-                    <p class="mt-3 text-sm text-gray-400">Deseja que eu gere o detalhamento completo da armação ou verifique outras vigas?</p>
-                </div>
-            `;
-        }
-        
-        function createElectricalResponse() {
-            return `
-                <div class="markdown-content">
-                    <p>Elaboração do <strong>Projeto Elétrico</strong> concluída com base na NBR 5410:2004.</p>
-                    
-                    <h3>⚡ Quadro de Distribuição QD-1</h3>
-                    <div class="grid grid-cols-2 gap-3 my-3">
-                        <div class="bg-white/5 rounded-lg p-3 border border-white/5">
-                            <div class="text-xs text-gray-500">Disjuntor Geral</div>
-                            <div class="text-lg font-semibold text-white">63A Bipolar</div>
-                        </div>
-                        <div class="bg-white/5 rounded-lg p-3 border border-white/5">
-                            <div class="text-xs text-gray-500">DR</div>
-                            <div class="text-lg font-semibold text-white">63A/30mA</div>
-                        </div>
-                    </div>
-                    
-                    <h3>🔌 Circuitos Definidos</h3>
-                    <table class="w-full text-sm data-table mt-2">
-                        <thead>
-                            <tr class="text-left">
-                                <th class="p-2 text-xs">Circuito</th>
-                                <th class="p-2 text-xs">Descrição</th>
-                                <th class="p-2 text-xs text-right">Potência</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-gray-300">
-                            <tr><td class="p-2">C1</td><td class="p-2">Iluminação Social</td><td class="p-2 text-right">440W</td></tr>
-                            <tr><td class="p-2">C2</td><td class="p-2">Tomadas Sala</td><td class="p-2 text-right">800W</td></tr>
-                            <tr><td class="p-2">C3</td><td class="p-2">Cozinha</td><td class="p-2 text-right">1200W</td></tr>
-                            <tr><td class="p-2">C4</td><td class="p-2">Chuveiro Suíte</td><td class="p-2 text-right">5500W</td></tr>
-                            <tr><td class="p-2">C5</td><td class="p-2">Chuveiro Social</td><td class="p-2 text-right">5500W</td></tr>
-                        </tbody>
-                    </table>
-                    
-                    <p class="mt-3">Todas as instalações atendem aos critérios de queda de tensão máxima de 4% e secção mínima de 1,5 mm² para iluminação e 2,5 mm² para tomadas.</p>
-                </div>
-            `;
-        }
-        
-        function createHydraulicResponse() {
-            return `
-                <div class="markdown-content">
-                    <p>Dimensionamento <strong>Hidráulico e Sanitário</strong> conforme NBR 8160:1999.</p>
-                    
-                    <h3>🚿 Sistema de Água Fria</h3>
-                    <ul>
-                        <li>Pressão na rede: <strong>15 mca</strong></li>
-                        <li>Perda de carga total: <strong>4,2 mca</strong></li>
-                        <li>Pressão residual mínima: <strong>1,0 mca</strong> <span class="text-green-400">✓</span></li>
-                    </ul>
-                    
-                    <div class="code-block rounded-lg p-3 my-3 text-sm">
-                        <div class="text-gray-400 mb-2">// Dimensionamento das Colunas</div>
-                        <div>Coluna de Recalque: <span class="text-blue-400">Ø 25 mm (3/4")</span></div>
-                        <div>Coluna de Descarga: <span class="text-blue-400">Ø 32 mm (1")</span></div>
-                        <div>Ramal de Derivação: <span class="text-blue-400">Ø 20 mm (1/2")</span></div>
-                    </div>
-                    
-                    <h3>🚽 Sistema de Esgoto</h3>
-                    <p>Subsolo com inspeção a cada 20m ou mudança de direção. Ventilação primária dimensionada para Ø 50 mm.</p>
-                    
-                    <h3>♨️ Água Quente (Aquecimento Solar)</h3>
-                    <ul>
-                        <li>Demanda diária: <strong>360 litros</strong></li>
-                        <li>Reservatório térmico: <strong>400 litros</strong></li>
-                        <li>Área de coletores: <strong>2,4 m²</strong></li>
-                    </ul>
-                </div>
-            `;
-        }
-        
-        function createSlabResponse() {
-            return `
-                <div class="markdown-content">
-                    <p>Análise das <strong>Lajes</strong> identificadas na planta:</p>
-                    
-                    <h3>📊 Laje L1 (Sala/Cozinha)</h3>
-                    <ul>
-                        <li>Tipo: <strong>Laje maciça</strong></li>
-                        <li>Espessura: <strong>10 cm</strong></li>
-                        <li>Vão maior: <strong>3,80 m</strong></li>
-                        <li>Carga acidental: <strong>2,0 kN/m²</strong> (residencial)</li>
-                    </ul>
-                    
-                    <div class="bg-white/5 rounded-lg p-3 my-3 border border-white/5">
-                        <div class="text-xs text-gray-500 mb-2">Armadura por metro</div>
-                        <div class="grid grid-cols-2 gap-2 text-sm">
-                            <div>
-                                <span class="text-gray-400">Direção X:</span>
-                                <span class="text-white ml-2">Ø 8mm c/ 15cm</span>
-                            </div>
-                            <div>
-                                <span class="text-gray-400">Direção Y:</span>
-                                <span class="text-white ml-2">Ø 8mm c/ 20cm</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <p>A laje atende aos critérios de flecha limite (L/250) sem necessidade de contra-flecha.</p>
-                </div>
-            `;
-        }
-        
-        function createGenericResponse() {
-            return `
-                <div class="markdown-content">
-                    <p>Entendi! Posso ajudar com diversos aspectos do seu projeto:</p>
-                    
-                    <ul>
-                        <li>✅ <strong>Cálculos estruturais</strong> detalhados (vigas, pilares, lajes, fundações)</li>
-                        <li>✅ <strong>Projeto elétrico</strong> completo (quadros, circuitos, SPDA)</li>
-                        <li>✅ <strong>Projeto hidráulico</strong> (água fria, quente, esgoto, pluvial)</li>
-                        <li>✅ <strong>Memorial descritivo</strong> e especificações técnicas</li>
-                        <li>✅ <strong>Orçamento estimado</strong> de materiais</li>
-                        <li>✅ <strong>Verificação normativa</strong> (ABNT, CREA)</li>
-                    </ul>
-                    
-                    <p class="mt-3">O que você gostaria de explorar primeiro? Posso detalhar qualquer um desses itens ou gerar os documentos técnicos completos.</p>
-                </div>
-            `;
-        }
-        
-        // Utility Functions
-        function escapeHtml(text) {
-            const map = {
-                '&': '&amp;',
-                '<': '&lt;',
-                '>': '&gt;',
-                '"': '&quot;',
-                "'": '&#039;'
+            const processStep = () => {
+                if (currentStep > 0) {
+                    steps[currentStep - 1].classList.remove('active');
+                    steps[currentStep - 1].classList.add('completed');
+                    steps[currentStep - 1].querySelector('.step-icon').classList.remove('text-gray-500');
+                    steps[currentStep - 1].querySelector('.step-icon').classList.add('text-green-500');
+                }
+                
+                if (currentStep < steps.length) {
+                    steps[currentStep].classList.add('active');
+                    currentStep++;
+                    setTimeout(processStep, 1500);
+                } else {
+                    setTimeout(showSuccess, 1000);
+                }
             };
-            return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+            
+            setTimeout(processStep, 500);
         }
-        
-        function scrollToBottom() {
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+        function showSuccess() {
+            processingContent.classList.add('hidden');
+            successContent.classList.remove('hidden');
+            uploadZone.classList.remove('processing');
         }
-        
-        // Initial scroll
-        setTimeout(scrollToBottom, 100);
-        
-        // Close mobile menu on window resize if open
-        window.addEventListener('resize', function() {
-            if (window.innerWidth >= 768 && sidebar.classList.contains('open')) {
-                toggleMobileMenu();
+
+        function resetUpload() {
+            successContent.classList.add('hidden');
+            uploadContent.classList.remove('hidden');
+            fileInput.value = '';
+            
+            // Reset steps
+            document.querySelectorAll('.step-item').forEach(step => {
+                step.classList.remove('active', 'completed');
+                step.querySelector('.step-icon').classList.remove('text-green-500', 'text-blue-500');
+                step.querySelector('.step-icon').classList.add('text-gray-500');
+            });
+        }
+
+        // Chat input enter key
+        document.querySelector('.chat-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const btn = e.target.nextElementSibling;
+                btn.style.transform = 'scale(0.95)';
+                setTimeout(() => btn.style.transform = 'scale(1)', 100);
             }
+        });
+
+        // Parallax effect for floating elements
+        document.addEventListener('mousemove', (e) => {
+            const elements = document.querySelectorAll('.float-element');
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            elements.forEach((el, index) => {
+                const speed = (index + 1) * 10;
+                const xOffset = (0.5 - x) * speed;
+                const yOffset = (0.5 - y) * speed;
+                el.style.transform = `translate(${xOffset}px, ${yOffset}px)`;
+            });
         });
     </script>
 </body>
