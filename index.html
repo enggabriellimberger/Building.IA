@@ -1,13 +1,481 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>building.ia</title>
-    <script type="module" crossorigin src="./assets/index-BgcWY-pt.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-A6MbK6N2.css">
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
-</html>
+import { useState, useRef, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { Upload, Building2, Menu, X, Shield, Zap, Droplets, Send, CheckCircle, Download } from 'lucide-react'
+
+export default function LandingPage() {
+  const [isDragging, setIsDragging] = useState(false)
+  const [, setFile] = useState<File | null>(null)
+  const [isProcessing, setIsProcessing] = useState(false)
+  const [currentStep, setCurrentStep] = useState(0)
+  const [isComplete, setIsComplete] = useState(false)
+  const [inputText, setInputText] = useState('')
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  const navigate = useNavigate()
+
+  // Mouse parallax effect
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      const elements = document.querySelectorAll('.float-element') as NodeListOf<HTMLElement>
+      const x = e.clientX / window.innerWidth
+      const y = e.clientY / window.innerHeight
+      
+      elements.forEach((el, index) => {
+        const speed = (index + 1) * 10
+        const xOffset = (0.5 - x) * speed
+        const yOffset = (0.5 - y) * speed
+        el.style.transform = `translate(${xOffset}px, ${yOffset}px)`
+      })
+    }
+    
+    document.addEventListener('mousemove', handleMouseMove)
+    return () => document.removeEventListener('mousemove', handleMouseMove)
+  }, [])
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault()
+    setIsDragging(true)
+  }
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault()
+    setIsDragging(false)
+  }
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault()
+    setIsDragging(false)
+    
+    const droppedFile = e.dataTransfer.files[0]
+    if (droppedFile) {
+      handleFile(droppedFile)
+    }
+  }
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0]
+    if (selectedFile) {
+      handleFile(selectedFile)
+    }
+  }
+
+  const handleFile = (file: File) => {
+    setFile(file)
+    setIsProcessing(true)
+    setCurrentStep(0)
+    
+    // Simulate processing steps
+    const processStep = () => {
+      setCurrentStep(prev => {
+        if (prev < 4) {
+          setTimeout(processStep, 1500)
+          return prev + 1
+        } else {
+          setTimeout(() => {
+            setIsComplete(true)
+            setTimeout(() => navigate('/chat'), 2000)
+          }, 1000)
+          return prev
+        }
+      })
+    }
+    
+    setTimeout(processStep, 500)
+  }
+
+  const handleClick = () => {
+    if (!isProcessing && !isComplete) {
+      fileInputRef.current?.click()
+    }
+  }
+
+  const resetUpload = () => {
+    setFile(null)
+    setIsProcessing(false)
+    setIsComplete(false)
+    setCurrentStep(0)
+    if (fileInputRef.current) fileInputRef.current.value = ''
+  }
+
+  const handleSend = () => {
+    if (inputText.trim()) {
+      navigate('/chat')
+    }
+  }
+
+  const steps = [
+    { icon: 'scan', text: 'Escaneando dimensões e cotas' },
+    { icon: 'calculator', text: 'Calculando cargas estruturais' },
+    { icon: 'zap', text: 'Dimensionando projeto elétrico' },
+    { icon: 'droplets', text: 'Calculando hidráulica e esgoto' },
+  ]
+
+  return (
+    <div className="min-h-screen bg-[#0a0a0a] text-white flex flex-col relative overflow-x-hidden">
+      {/* Grid Background */}
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <div 
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `
+              linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px)
+            `,
+            backgroundSize: '50px 50px'
+          }}
+        />
+        <div 
+          className="absolute inset-0"
+          style={{
+            background: 'radial-gradient(circle at 50% 50%, transparent 0%, #0a0a0a 100%)'
+          }}
+        />
+      </div>
+
+      {/* Glow Effects */}
+      <div 
+        className="fixed top-0 left-1/4 w-[600px] h-[600px] pointer-events-none z-0"
+        style={{
+          background: 'radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%)',
+          borderRadius: '50%',
+          filter: 'blur(60px)'
+        }}
+      />
+      <div 
+        className="fixed bottom-0 right-1/4 w-[600px] h-[600px] pointer-events-none z-0"
+        style={{
+          background: 'radial-gradient(circle, rgba(249, 115, 22, 0.1) 0%, transparent 70%)',
+          borderRadius: '50%',
+          filter: 'blur(60px)'
+        }}
+      />
+
+      {/* Floating Decorative Elements */}
+      <div className="float-element fixed w-32 h-32 rounded-lg top-20 left-10 hidden lg:block border border-white/10 bg-white/[0.02] backdrop-blur-sm" style={{ animation: 'float 20s infinite ease-in-out' }} />
+      <div className="float-element fixed w-24 h-24 rounded-full top-40 right-20 hidden lg:block border border-white/10 bg-white/[0.02] backdrop-blur-sm" style={{ animation: 'float 20s infinite ease-in-out 5s' }} />
+      <div className="float-element fixed w-40 h-20 rounded-xl bottom-32 left-20 hidden lg:block border border-white/10 bg-white/[0.02] backdrop-blur-sm" style={{ animation: 'float 20s infinite ease-in-out 10s' }} />
+
+      {/* Header */}
+      <header className="relative z-10 w-full px-6 py-6 flex justify-between items-center border-b border-white/5 backdrop-blur-sm">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center shadow-lg shadow-blue-500/20">
+            <Building2 className="w-6 h-6 text-white" />
+          </div>
+          <span className="font-display text-2xl font-bold tracking-tight">
+            Building<span className="text-blue-500">.IA</span>
+          </span>
+        </div>
+        <nav className="hidden md:flex items-center gap-8 text-sm text-gray-400">
+          <a href="#" className="hover:text-white transition-colors">Como Funciona</a>
+          <a href="#" className="hover:text-white transition-colors">Exemplos</a>
+          <a href="#" className="hover:text-white transition-colors">Preços</a>
+          <button 
+            onClick={() => navigate('/chat')}
+            className="px-5 py-2.5 rounded-full text-white font-medium text-sm bg-gradient-to-r from-blue-500 to-blue-600 hover:shadow-lg hover:shadow-blue-500/40 transition-all hover:-translate-y-0.5"
+          >
+            Começar Agora
+          </button>
+        </nav>
+        <button 
+          className="md:hidden text-white"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        >
+          {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
+      </header>
+
+      {/* Mobile Menu */}
+      {mobileMenuOpen && (
+        <div className="md:hidden relative z-20 bg-[#0a0a0a] border-b border-white/5 px-6 py-4 space-y-4">
+          <a href="#" className="block text-gray-400 hover:text-white">Como Funciona</a>
+          <a href="#" className="block text-gray-400 hover:text-white">Exemplos</a>
+          <a href="#" className="block text-gray-400 hover:text-white">Preços</a>
+          <button 
+            onClick={() => navigate('/chat')}
+            className="w-full px-5 py-2.5 rounded-full text-white font-medium text-sm bg-gradient-to-r from-blue-500 to-blue-600"
+          >
+            Começar Agora
+          </button>
+        </div>
+      )}
+
+      {/* Main Content */}
+      <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-4 py-12 md:py-20">
+        
+        {/* Hero Section */}
+        <div className="max-w-4xl mx-auto text-center mb-12 space-y-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm text-gray-400 mb-4">
+            <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+            IA de Engenharia Estrutural Online
+          </div>
+          
+          <h1 className="font-display text-5xl md:text-7xl font-bold leading-tight">
+            <span className="bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">Projetos Estruturais</span><br />
+            <span className="bg-gradient-to-r from-blue-400 to-blue-500 bg-clip-text text-transparent">em Segundos</span>
+          </h1>
+          
+          <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
+            Envie sua planta baixa e nossa inteligência artificial calcula toda a estrutura, 
+            projeto elétrico e hidráulico automaticamente com precisão técnica.
+          </p>
+        </div>
+
+        {/* Upload Section */}
+        <div className="w-full max-w-3xl mx-auto mb-16">
+          <div
+            onClick={handleClick}
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+            className={`
+              relative rounded-2xl p-8 md:p-12 text-center cursor-pointer overflow-hidden
+              border-2 border-dashed transition-all duration-300
+              ${isDragging 
+                ? 'border-blue-500 bg-white/5' 
+                : 'border-white/20 bg-white/[0.02] hover:border-white/30 hover:bg-white/[0.04]'
+              }
+              ${isProcessing ? 'border-blue-500/50' : ''}
+            `}
+            style={{
+              boxShadow: isDragging ? '0 20px 40px rgba(0, 0, 0, 0.4)' : 'none'
+            }}
+          >
+            {/* Scan Line Animation */}
+            {isProcessing && (
+              <div 
+                className="absolute left-0 right-0 h-0.5 z-10"
+                style={{
+                  background: 'linear-gradient(90deg, transparent, #3b82f6, transparent)',
+                  boxShadow: '0 0 10px #3b82f6',
+                  animation: 'scan 2s linear infinite'
+                }}
+              />
+            )}
+            
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".dwg,.pdf,.png,.jpg,.jpeg"
+              onChange={handleFileSelect}
+              className="hidden"
+            />
+            
+            {/* Upload Content */}
+            {!isProcessing && !isComplete && (
+              <div className="space-y-6">
+                <div className="w-20 h-20 mx-auto rounded-2xl bg-white/5 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <Upload className="w-10 h-10 text-blue-500" />
+                </div>
+                
+                <div>
+                  <h3 className="font-display text-xl font-semibold mb-2 text-white">
+                    Arraste sua planta baixa aqui
+                  </h3>
+                  <p className="text-gray-400 text-sm mb-4">
+                    ou clique para selecionar arquivo
+                  </p>
+                  <div className="flex justify-center gap-2 text-xs text-gray-500">
+                    <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10">DWG</span>
+                    <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10">PDF</span>
+                    <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10">PNG/JPG</span>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Processing State */}
+            {isProcessing && !isComplete && (
+              <div className="space-y-6">
+                <div className="w-20 h-20 mx-auto rounded-2xl bg-blue-500/10 flex items-center justify-center">
+                  <div 
+                    className="w-6 h-6 border-3 border-white/10 border-t-blue-500 rounded-full"
+                    style={{ animation: 'spin 1s linear infinite' }}
+                  />
+                </div>
+                <h3 className="font-display text-xl font-semibold text-white">Analisando planta baixa...</h3>
+                
+                {/* Processing Steps */}
+                <div className="max-w-md mx-auto space-y-3 text-left mt-6">
+                  {steps.map((step, index) => (
+                    <div 
+                      key={index}
+                      className={`
+                        flex items-center gap-3 p-3 rounded-lg bg-white/5 transition-all duration-500
+                        ${index < currentStep ? 'opacity-60' : ''}
+                        ${index === currentStep ? 'opacity-100' : 'opacity-0 -translate-x-5'}
+                      `}
+                      style={{
+                        opacity: index <= currentStep ? 1 : 0,
+                        transform: index <= currentStep ? 'translateX(0)' : 'translateX(-20px)'
+                      }}
+                    >
+                      <div className={`
+                        w-5 h-5 transition-all duration-300
+                        ${index < currentStep ? 'text-green-500' : ''}
+                        ${index === currentStep ? 'text-blue-500 scale-110' : 'text-gray-500'}
+                      `}>
+                        {index < currentStep ? (
+                          <CheckCircle className="w-5 h-5" />
+                        ) : index === 0 ? (
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                          </svg>
+                        ) : index === 1 ? (
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                          </svg>
+                        ) : index === 2 ? (
+                          <Zap className="w-5 h-5" />
+                        ) : (
+                          <Droplets className="w-5 h-5" />
+                        )}
+                      </div>
+                      <span className="text-sm text-gray-300">{step.text}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Success State */}
+            {isComplete && (
+              <div className="space-y-6">
+                <div className="w-20 h-20 mx-auto rounded-2xl bg-green-500/10 flex items-center justify-center">
+                  <CheckCircle className="w-10 h-10 text-green-500" />
+                </div>
+                <h3 className="font-display text-xl font-semibold text-white">Projeto Completo!</h3>
+                <p className="text-gray-400">Todos os cálculos foram finalizados com sucesso.</p>
+                <button 
+                  onClick={resetUpload}
+                  className="px-8 py-3 rounded-full text-white font-medium inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:shadow-lg hover:shadow-blue-500/40 transition-all"
+                >
+                  <Download className="w-4 h-4" />
+                  Baixar Projeto Completo
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Chat Input Section */}
+        <div className="w-full max-w-3xl mx-auto mb-20">
+          <div className="relative">
+            <div 
+              className="absolute inset-0 rounded-2xl blur-xl opacity-50"
+              style={{
+                background: 'linear-gradient(to right, rgba(59, 130, 246, 0.2), rgba(249, 115, 22, 0.2))'
+              }}
+            />
+            <div className="relative bg-gray-900/80 backdrop-blur-xl rounded-2xl border border-white/10 p-2 flex items-center gap-2">
+              <div className="pl-4 text-gray-500">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                </svg>
+              </div>
+              <input 
+                type="text" 
+                value={inputText}
+                onChange={(e) => setInputText(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+                placeholder="Descreva modificações ou especificações técnicas..." 
+                className="flex-1 bg-transparent border-none px-4 py-4 text-white placeholder-gray-500 focus:outline-none"
+              />
+              <button 
+                onClick={handleSend}
+                className="p-3 rounded-xl text-white bg-gradient-to-r from-blue-500 to-blue-600 hover:shadow-lg hover:shadow-blue-500/40 transition-all hover:scale-105 active:scale-95"
+              >
+                <Send className="w-5 h-5" />
+              </button>
+            </div>
+            <p className="text-center text-xs text-gray-600 mt-3">
+              Ex: "Calcular para concreto armado fck 25MPa" ou "Incluir sistema de ar-condicionado split"
+            </p>
+          </div>
+        </div>
+
+        {/* Features Grid */}
+        <div className="w-full max-w-6xl mx-auto grid md:grid-cols-3 gap-6 px-4">
+          <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/5 hover:bg-white/5 hover:border-blue-500/30 transition-all hover:-translate-y-1">
+            <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center mb-4">
+              <Shield className="w-6 h-6 text-blue-500" />
+            </div>
+            <h3 className="font-display text-lg font-semibold">Cálculo Estrutural</h3>
+            <p className="text-gray-400 text-sm leading-relaxed mt-2">
+              Dimensionamento automático de vigas, pilares, lajes e fundações conforme normas técnicas ABNT.
+            </p>
+          </div>
+          
+          <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/5 hover:bg-white/5 hover:border-orange-500/30 transition-all hover:-translate-y-1">
+            <div className="w-12 h-12 rounded-xl bg-orange-500/10 flex items-center justify-center mb-4">
+              <Zap className="w-6 h-6 text-orange-500" />
+            </div>
+            <h3 className="font-display text-lg font-semibold">Projeto Elétrico</h3>
+            <p className="text-gray-400 text-sm leading-relaxed mt-2">
+              Circuitos, quadros de distribuição, aterramento e SPDA calculados automaticamente pela IA.
+            </p>
+          </div>
+          
+          <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/5 hover:bg-white/5 hover:border-cyan-500/30 transition-all hover:-translate-y-1">
+            <div className="w-12 h-12 rounded-xl bg-cyan-500/10 flex items-center justify-center mb-4">
+              <Droplets className="w-6 h-6 text-cyan-500" />
+            </div>
+            <h3 className="font-display text-lg font-semibold">Projeto Hidráulico</h3>
+            <p className="text-gray-400 text-sm leading-relaxed mt-2">
+              Sistemas de água fria, quente, esgoto sanitário e pluvial dimensionados com precisão hidráulica.
+            </p>
+          </div>
+        </div>
+
+        {/* Stats Section */}
+        <div className="w-full max-w-4xl mx-auto mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          <div>
+            <div className="font-display text-3xl font-bold text-white mb-1">10k+</div>
+            <div className="text-sm text-gray-500">Projetos Gerados</div>
+          </div>
+          <div>
+            <div className="font-display text-3xl font-bold text-white mb-1">99%</div>
+            <div className="text-sm text-gray-500">Precisão Técnica</div>
+          </div>
+          <div>
+            <div className="font-display text-3xl font-bold text-white mb-1">{'<30s'}</div>
+            <div className="text-sm text-gray-500">Tempo Médio</div>
+          </div>
+          <div>
+            <div className="font-display text-3xl font-bold text-white mb-1">24/7</div>
+            <div className="text-sm text-gray-500">Disponibilidade</div>
+          </div>
+        </div>
+      </main>
+
+      {/* Footer */}
+      <footer className="relative z-10 border-t border-white/5 py-8 px-6 mt-12">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
+          <div className="flex items-center gap-2">
+            <Building2 className="w-4 h-4" />
+            <span className="font-display font-semibold text-gray-400">Building.IA</span>
+            <span>© 2024</span>
+          </div>
+          <div className="flex gap-6">
+            <a href="#" className="hover:text-white transition-colors">Termos de Uso</a>
+            <a href="#" className="hover:text-white transition-colors">Privacidade</a>
+            <a href="#" className="hover:text-white transition-colors">Contato</a>
+          </div>
+        </div>
+      </footer>
+
+      <style>{`
+        @keyframes float {
+          0%, 100% { transform: translateY(0px) rotate(0deg); }
+          50% { transform: translateY(-20px) rotate(2deg); }
+        }
+        @keyframes scan {
+          0% { top: 0%; }
+          100% { top: 100%; }
+        }
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
+      `}</style>
+    </div>
+  )
+}
