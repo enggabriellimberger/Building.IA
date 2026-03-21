@@ -401,9 +401,9 @@
     <div class="glow top-0 left-1/4" style="position:fixed"></div>
     <div class="glow glow-orange bottom-0 right-1/4" style="position:fixed"></div>
 
-    <div class="float-element w-32 h-32 rounded-lg top-20 left-10 hidden lg:block" style="transform: translate(-3.13021px, 0.115258px);"></div>
-    <div class="float-element w-24 h-24 rounded-full top-40 right-20 hidden lg:block" style="animation-delay: 5s; transform: translate(-6.26042px, 0.230516px);"></div>
-    <div class="float-element w-40 h-20 rounded-xl bottom-32 left-20 hidden lg:block" style="animation-delay: 10s; transform: translate(-9.39062px, 0.345774px);"></div>
+    <div class="float-element w-32 h-32 rounded-lg top-20 left-10 hidden lg:block" style="transform: translate(-4.99294px, 2.69312px);"></div>
+    <div class="float-element w-24 h-24 rounded-full top-40 right-20 hidden lg:block" style="animation-delay: 5s; transform: translate(-9.98588px, 5.38624px);"></div>
+    <div class="float-element w-40 h-20 rounded-xl bottom-32 left-20 hidden lg:block" style="animation-delay: 10s; transform: translate(-14.9788px, 8.07936px);"></div>
 
     <header class="relative z-10 w-full px-6 py-6 flex justify-between items-center border-b border-white/5 backdrop-blur-sm">
         <div class="flex items-center gap-3">
@@ -415,20 +415,20 @@
         <nav class="hidden md:flex items-center gap-8 text-sm text-gray-400" style="position:relative">
             <button onclick="openModal('modal-como-funciona')" class="hover:text-white transition-colors">Como Funciona</button>
             <button onclick="openModal('modal-precos')" class="hover:text-white transition-colors">Preços</button>
-            <div id="nav-logged-out" style="display: none; align-items: center; gap: 10px;">
+            <div id="nav-logged-out" style="display:flex;align-items:center;gap:10px">
                 <button onclick="openAuth('login')" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:100px;padding:7px 18px;color:#9ca3af;font-size:0.84rem;cursor:pointer;transition:all .2s" onmouseover="this.style.color='white';this.style.borderColor='rgba(255,255,255,0.2)'" onmouseout="this.style.color='#9ca3af';this.style.borderColor='rgba(255,255,255,0.1)'">Entrar</button>
                 <button onclick="openAuth('register')" class="btn-primary px-5 py-2.5 rounded-full text-white font-medium text-sm">Criar Conta</button>
             </div>
-            <div id="nav-logged-in" style="display: flex; align-items: center; gap: 10px;" data-flex="1">
+            <div id="nav-logged-in" style="display:none;align-items:center;gap:10px" data-flex="1">
                 <div class="user-pill" onclick="event.stopPropagation();toggleUserMenu()">
-                    <div class="user-avatar-pill" id="nav-avatar-initials">GE</div>
-                    <span id="nav-user-name" style="font-size:0.82rem;color:#d1d5db;font-weight:500">GABRIEL</span>
+                    <div class="user-avatar-pill" id="nav-avatar-initials">??</div>
+                    <span id="nav-user-name" style="font-size:0.82rem;color:#d1d5db;font-weight:500">Usuário</span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" stroke="#6b7280" stroke-width="2" viewBox="0 0 24 24" style="margin-left:2px"><path d="m6 9 6 6 6-6"></path></svg>
                 </div>
-                <div id="user-dropdown" style="display: none; position: absolute; top: 48px; right: 0px; background: rgb(17, 17, 17); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; padding: 8px; min-width: 190px; z-index: 300; box-shadow: rgba(0, 0, 0, 0.7) 0px 20px 40px;">
+                <div id="user-dropdown" style="display:none;position:absolute;top:48px;right:0;background:#111;border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:8px;min-width:190px;z-index:300;box-shadow:0 20px 40px rgba(0,0,0,0.7)">
                     <div style="padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.05);margin-bottom:4px">
-                        <div id="dd-name" style="font-size:0.82rem;font-weight:600;color:white">GABRIEL ELIAS FRANCIOSI LIMBERGER</div>
-                        <div id="dd-email" style="font-size:0.7rem;color:#4b5563;margin-top:2px">gabriel.elias.limberger@gmail.com</div>
+                        <div id="dd-name" style="font-size:0.82rem;font-weight:600;color:white"></div>
+                        <div id="dd-email" style="font-size:0.7rem;color:#4b5563;margin-top:2px"></div>
                     </div>
                     <button onclick="toggleUserMenu();goToChat()" style="display:flex;align-items:center;gap:8px;width:100%;padding:8px 12px;border-radius:8px;background:transparent;border:none;color:#9ca3af;font-size:0.8rem;cursor:pointer;transition:background .15s;font-family:'Inter',sans-serif" onmouseover="this.style.background='rgba(255,255,255,0.04)'" onmouseout="this.style.background='transparent'">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 8V4H8"></path><rect width="16" height="12" x="4" y="8" rx="2"></rect></svg>
@@ -616,7 +616,7 @@
             <!-- LOGIN INDICATOR -->
             <div id="sidebar-login-indicator" style="margin:10px 16px 0;border-radius:12px;overflow:hidden">
                 <!-- Not logged in -->
-                <div id="sidebar-guest" style="background: rgba(239, 68, 68, 0.06); border: 1px solid rgba(239, 68, 68, 0.15); border-radius: 12px; padding: 10px 12px; display: none; align-items: center; gap: 10px;">
+                <div id="sidebar-guest" style="background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.15);border-radius:12px;padding:10px 12px;display:flex;align-items:center;gap:10px">
                     <div style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.05);border:1px dashed rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" stroke="#6b7280" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"></circle><path d="M20 21a8 8 0 1 0-16 0"></path></svg>
                     </div>
@@ -627,10 +627,10 @@
                     <button onclick="goToLanding();setTimeout(()=&gt;openAuth('login'),300)" style="font-size:0.65rem;background:rgba(59,130,246,0.12);border:1px solid rgba(59,130,246,0.25);border-radius:6px;padding:4px 8px;color:#60a5fa;cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif">Entrar</button>
                 </div>
                 <!-- Logged in -->
-                <div id="sidebar-logged" style="display: flex; background: rgba(34, 197, 94, 0.05); border: 1px solid rgba(34, 197, 94, 0.15); border-radius: 12px; padding: 10px 12px; align-items: center; gap: 10px;">
-                    <div id="sidebar-avatar" style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#2563eb);display:flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:700;color:white;flex-shrink:0">GE</div>
+                <div id="sidebar-logged" style="display:none;background:rgba(34,197,94,0.05);border:1px solid rgba(34,197,94,0.15);border-radius:12px;padding:10px 12px;align-items:center;gap:10px">
+                    <div id="sidebar-avatar" style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#2563eb);display:flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:700;color:white;flex-shrink:0">??</div>
                     <div style="flex:1;min-width:0">
-                        <div id="sidebar-user-name" style="font-size:0.75rem;color:white;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">GABRIEL</div>
+                        <div id="sidebar-user-name" style="font-size:0.75rem;color:white;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Usuário</div>
                         <div style="font-size:0.65rem;color:#22c55e;margin-top:1px">✓ Projetos salvos</div>
                     </div>
                 </div>
@@ -727,20 +727,20 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
                     </button>
                     <!-- Chat: logged out -->
-                    <div id="chat-nav-out" style="display: none;">
+                    <div id="chat-nav-out" style="display:flex">
                         <button onclick="goToLanding();setTimeout(function(){openAuth('login');},350)" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:100px;padding:5px 14px;color:#6b7280;font-size:0.76rem;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif" onmouseover="this.style.color='white';this.style.borderColor='rgba(255,255,255,0.2)'" onmouseout="this.style.color='#6b7280';this.style.borderColor='rgba(255,255,255,0.1)'">Entrar</button>
                     </div>
                     <!-- Chat: logged in -->
-                    <div id="chat-nav-in" style="display: flex; position: relative;">
+                    <div id="chat-nav-in" style="display:none;position:relative">
                         <div class="user-pill" onclick="event.stopPropagation();toggleChatMenu()" style="padding:4px 12px 4px 4px">
-                            <div id="chat-avatar" class="user-avatar-pill" style="width:26px;height:26px;font-size:0.68rem">GE</div>
-                            <span id="chat-user-name" style="font-size:0.8rem;color:#d1d5db;font-weight:500">GABRIEL</span>
+                            <div id="chat-avatar" class="user-avatar-pill" style="width:26px;height:26px;font-size:0.68rem">??</div>
+                            <span id="chat-user-name" style="font-size:0.8rem;color:#d1d5db;font-weight:500">Usuário</span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" fill="none" stroke="#6b7280" stroke-width="2" viewBox="0 0 24 24" style="margin-left:2px"><path d="m6 9 6 6 6-6"></path></svg>
                         </div>
                         <div id="chat-dropdown" style="display:none;position:absolute;top:42px;right:0;background:#111;border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:8px;min-width:180px;z-index:400;box-shadow:0 20px 40px rgba(0,0,0,0.8)">
                             <div style="padding:9px 12px;border-bottom:1px solid rgba(255,255,255,0.05);margin-bottom:4px">
-                                <div id="chat-dd-name" style="font-size:0.8rem;font-weight:600;color:white">GABRIEL ELIAS FRANCIOSI LIMBERGER</div>
-                                <div id="chat-dd-email" style="font-size:0.68rem;color:#4b5563;margin-top:2px">gabriel.elias.limberger@gmail.com</div>
+                                <div id="chat-dd-name" style="font-size:0.8rem;font-weight:600;color:white"></div>
+                                <div id="chat-dd-email" style="font-size:0.68rem;color:#4b5563;margin-top:2px"></div>
                             </div>
                             <button onclick="event.stopPropagation();doChatLogout()" style="display:flex;align-items:center;gap:8px;width:100%;padding:8px 12px;border-radius:8px;background:transparent;border:none;color:#f87171;font-size:0.8rem;cursor:pointer;font-family:'Inter',sans-serif;transition:background .15s" onmouseover="this.style.background='rgba(239,68,68,0.07)'" onmouseout="this.style.background='transparent'">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"></path></svg>
