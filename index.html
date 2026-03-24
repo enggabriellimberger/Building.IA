@@ -401,9 +401,9 @@
     <div class="glow top-0 left-1/4" style="position:fixed"></div>
     <div class="glow glow-orange bottom-0 right-1/4" style="position:fixed"></div>
 
-    <div class="float-element w-32 h-32 rounded-lg top-20 left-10 hidden lg:block" style="transform: translate(-4.99294px, 2.69312px);"></div>
-    <div class="float-element w-24 h-24 rounded-full top-40 right-20 hidden lg:block" style="animation-delay: 5s; transform: translate(-9.98588px, 5.38624px);"></div>
-    <div class="float-element w-40 h-20 rounded-xl bottom-32 left-20 hidden lg:block" style="animation-delay: 10s; transform: translate(-14.9788px, 8.07936px);"></div>
+    <div class="float-element w-32 h-32 rounded-lg top-20 left-10 hidden lg:block" style="transform: translate(-1.0625px, 0.642151px);"></div>
+    <div class="float-element w-24 h-24 rounded-full top-40 right-20 hidden lg:block" style="animation-delay: 5s; transform: translate(-2.125px, 1.2843px);"></div>
+    <div class="float-element w-40 h-20 rounded-xl bottom-32 left-20 hidden lg:block" style="animation-delay: 10s; transform: translate(-3.1875px, 1.92645px);"></div>
 
     <header class="relative z-10 w-full px-6 py-6 flex justify-between items-center border-b border-white/5 backdrop-blur-sm">
         <div class="flex items-center gap-3">
@@ -415,28 +415,26 @@
         <nav class="hidden md:flex items-center gap-8 text-sm text-gray-400" style="position:relative">
             <button onclick="openModal('modal-como-funciona')" class="hover:text-white transition-colors">Como Funciona</button>
             <button onclick="openModal('modal-precos')" class="hover:text-white transition-colors">Preços</button>
-            <div id="nav-logged-out" style="display:flex;align-items:center;gap:10px">
-                <button onclick="openAuth('login')" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:100px;padding:7px 18px;color:#9ca3af;font-size:0.84rem;cursor:pointer;transition:all .2s" onmouseover="this.style.color='white';this.style.borderColor='rgba(255,255,255,0.2)'" onmouseout="this.style.color='#9ca3af';this.style.borderColor='rgba(255,255,255,0.1)'">Entrar</button>
+            <!-- Auth area: JS controls which is visible -->
+            <div id="nav-logged-out" class="flex items-center gap-3" style="display: flex;">
+                <button id="btn-entrar" onclick="openAuth('login')" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:100px;padding:7px 18px;color:#9ca3af;font-size:0.84rem;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif">Entrar</button>
                 <button onclick="openAuth('register')" class="btn-primary px-5 py-2.5 rounded-full text-white font-medium text-sm">Criar Conta</button>
             </div>
-            <div id="nav-logged-in" style="display:none;align-items:center;gap:10px" data-flex="1">
+            <div id="nav-logged-in" class="items-center gap-3" style="display: none;">
+                <button id="btn-sair" onclick="doLogout()" style="background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.2); border-radius: 100px; padding: 6px 16px; color: rgb(248, 113, 113); font-size: 0.8rem; cursor: pointer; font-family: Inter, sans-serif; transition: 0.2s;" onmouseover="this.style.background='rgba(239,68,68,0.15)'" onmouseout="this.style.background='rgba(239,68,68,0.08)'">Sair</button>
                 <div class="user-pill" onclick="event.stopPropagation();toggleUserMenu()">
                     <div class="user-avatar-pill" id="nav-avatar-initials">??</div>
                     <span id="nav-user-name" style="font-size:0.82rem;color:#d1d5db;font-weight:500">Usuário</span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" stroke="#6b7280" stroke-width="2" viewBox="0 0 24 24" style="margin-left:2px"><path d="m6 9 6 6 6-6"></path></svg>
                 </div>
-                <div id="user-dropdown" style="display:none;position:absolute;top:48px;right:0;background:#111;border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:8px;min-width:190px;z-index:300;box-shadow:0 20px 40px rgba(0,0,0,0.7)">
+                <div id="user-dropdown" style="display:none;position:absolute;top:52px;right:0;background:#111;border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:8px;min-width:190px;z-index:500;box-shadow:0 20px 40px rgba(0,0,0,0.8)">
                     <div style="padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.05);margin-bottom:4px">
-                        <div id="dd-name" style="font-size:0.82rem;font-weight:600;color:white"></div>
-                        <div id="dd-email" style="font-size:0.7rem;color:#4b5563;margin-top:2px"></div>
+                        <div id="dd-name" style="font-size:0.82rem;font-weight:600;color:white">GABRIEL ELIAS FRANCIOSI LIMBERGER</div>
+                        <div id="dd-email" style="font-size:0.7rem;color:#4b5563;margin-top:2px">gabriel.elias.limberger@gmail.com</div>
                     </div>
-                    <button onclick="toggleUserMenu();goToChat()" style="display:flex;align-items:center;gap:8px;width:100%;padding:8px 12px;border-radius:8px;background:transparent;border:none;color:#9ca3af;font-size:0.8rem;cursor:pointer;transition:background .15s;font-family:'Inter',sans-serif" onmouseover="this.style.background='rgba(255,255,255,0.04)'" onmouseout="this.style.background='transparent'">
+                    <button onclick="toggleUserMenu();goToChat()" style="display:flex;align-items:center;gap:8px;width:100%;padding:8px 12px;border-radius:8px;background:transparent;border:none;color:#9ca3af;font-size:0.8rem;cursor:pointer;font-family:'Inter',sans-serif">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 8V4H8"></path><rect width="16" height="12" x="4" y="8" rx="2"></rect></svg>
                         Ir para Projetos
-                    </button>
-                    <button onclick="event.stopPropagation();doLogout()" style="display:flex;align-items:center;gap:8px;width:100%;padding:8px 12px;border-radius:8px;background:transparent;border:none;color:#f87171;font-size:0.8rem;cursor:pointer;transition:background .15s;font-family:'Inter',sans-serif" onmouseover="this.style.background='rgba(239,68,68,0.06)'" onmouseout="this.style.background='transparent'">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"></path></svg>
-                        Sair da Conta
                     </button>
                 </div>
             </div>
@@ -616,7 +614,7 @@
             <!-- LOGIN INDICATOR -->
             <div id="sidebar-login-indicator" style="margin:10px 16px 0;border-radius:12px;overflow:hidden">
                 <!-- Not logged in -->
-                <div id="sidebar-guest" style="background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.15);border-radius:12px;padding:10px 12px;display:flex;align-items:center;gap:10px">
+                <div id="sidebar-guest" style="background: rgba(239, 68, 68, 0.06); border: 1px solid rgba(239, 68, 68, 0.15); border-radius: 12px; padding: 10px 12px; display: flex; align-items: center; gap: 10px;">
                     <div style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.05);border:1px dashed rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" stroke="#6b7280" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"></circle><path d="M20 21a8 8 0 1 0-16 0"></path></svg>
                     </div>
@@ -627,10 +625,10 @@
                     <button onclick="goToLanding();setTimeout(()=&gt;openAuth('login'),300)" style="font-size:0.65rem;background:rgba(59,130,246,0.12);border:1px solid rgba(59,130,246,0.25);border-radius:6px;padding:4px 8px;color:#60a5fa;cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif">Entrar</button>
                 </div>
                 <!-- Logged in -->
-                <div id="sidebar-logged" style="display:none;background:rgba(34,197,94,0.05);border:1px solid rgba(34,197,94,0.15);border-radius:12px;padding:10px 12px;align-items:center;gap:10px">
-                    <div id="sidebar-avatar" style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#2563eb);display:flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:700;color:white;flex-shrink:0">??</div>
+                <div id="sidebar-logged" style="display: none; background: rgba(34, 197, 94, 0.05); border: 1px solid rgba(34, 197, 94, 0.15); border-radius: 12px; padding: 10px 12px; align-items: center; gap: 10px;">
+                    <div id="sidebar-avatar" style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#2563eb);display:flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:700;color:white;flex-shrink:0">GE</div>
                     <div style="flex:1;min-width:0">
-                        <div id="sidebar-user-name" style="font-size:0.75rem;color:white;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Usuário</div>
+                        <div id="sidebar-user-name" style="font-size:0.75rem;color:white;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">GABRIEL</div>
                         <div style="font-size:0.65rem;color:#22c55e;margin-top:1px">✓ Projetos salvos</div>
                     </div>
                 </div>
@@ -727,20 +725,20 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
                     </button>
                     <!-- Chat: logged out -->
-                    <div id="chat-nav-out" style="display:flex">
+                    <div id="chat-nav-out" style="display: flex;">
                         <button onclick="goToLanding();setTimeout(function(){openAuth('login');},350)" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:100px;padding:5px 14px;color:#6b7280;font-size:0.76rem;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif" onmouseover="this.style.color='white';this.style.borderColor='rgba(255,255,255,0.2)'" onmouseout="this.style.color='#6b7280';this.style.borderColor='rgba(255,255,255,0.1)'">Entrar</button>
                     </div>
                     <!-- Chat: logged in -->
-                    <div id="chat-nav-in" style="display:none;position:relative">
+                    <div id="chat-nav-in" style="display: none; position: relative;">
                         <div class="user-pill" onclick="event.stopPropagation();toggleChatMenu()" style="padding:4px 12px 4px 4px">
-                            <div id="chat-avatar" class="user-avatar-pill" style="width:26px;height:26px;font-size:0.68rem">??</div>
-                            <span id="chat-user-name" style="font-size:0.8rem;color:#d1d5db;font-weight:500">Usuário</span>
+                            <div id="chat-avatar" class="user-avatar-pill" style="width:26px;height:26px;font-size:0.68rem">GE</div>
+                            <span id="chat-user-name" style="font-size:0.8rem;color:#d1d5db;font-weight:500">GABRIEL</span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" fill="none" stroke="#6b7280" stroke-width="2" viewBox="0 0 24 24" style="margin-left:2px"><path d="m6 9 6 6 6-6"></path></svg>
                         </div>
                         <div id="chat-dropdown" style="display:none;position:absolute;top:42px;right:0;background:#111;border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:8px;min-width:180px;z-index:400;box-shadow:0 20px 40px rgba(0,0,0,0.8)">
                             <div style="padding:9px 12px;border-bottom:1px solid rgba(255,255,255,0.05);margin-bottom:4px">
-                                <div id="chat-dd-name" style="font-size:0.8rem;font-weight:600;color:white"></div>
-                                <div id="chat-dd-email" style="font-size:0.68rem;color:#4b5563;margin-top:2px"></div>
+                                <div id="chat-dd-name" style="font-size:0.8rem;font-weight:600;color:white">GABRIEL ELIAS FRANCIOSI LIMBERGER</div>
+                                <div id="chat-dd-email" style="font-size:0.68rem;color:#4b5563;margin-top:2px">gabriel.elias.limberger@gmail.com</div>
                             </div>
                             <button onclick="event.stopPropagation();doChatLogout()" style="display:flex;align-items:center;gap:8px;width:100%;padding:8px 12px;border-radius:8px;background:transparent;border:none;color:#f87171;font-size:0.8rem;cursor:pointer;font-family:'Inter',sans-serif;transition:background .15s" onmouseover="this.style.background='rgba(239,68,68,0.07)'" onmouseout="this.style.background='transparent'">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"></path></svg>
@@ -1280,20 +1278,19 @@ function doChatLogout() {
 }
 
 function _applyLogoutUI() {
-    // Landing nav
-    var dd   = document.getElementById('user-dropdown');
-    var lin  = document.getElementById('nav-logged-in');
-    var lout = document.getElementById('nav-logged-out');
-    if (dd)   { dd.style.cssText = dd.style.cssText.replace(/display:[^;]+;?/g,''); dd.style.display = 'none'; }
-    if (lin)  { lin.style.display  = 'none'; }
-    if (lout) { lout.style.display = 'flex'; lout.style.alignItems = 'center'; lout.style.gap = '10px'; }
-    // Chat topbar
-    var cin  = document.getElementById('chat-nav-in');
-    var cout = document.getElementById('chat-nav-out');
-    var cdd  = document.getElementById('chat-dropdown');
-    if (cdd)  { cdd.style.display = 'none'; }
-    if (cin)  { cin.style.display  = 'none'; }
-    if (cout) { cout.style.display = 'flex'; }
+    // Hide all logged-in UI, show all logged-out UI
+    ['user-dropdown','chat-dropdown'].forEach(function(id) {
+        var el = document.getElementById(id); if (el) el.style.display = 'none';
+    });
+    ['nav-logged-in','chat-nav-in'].forEach(function(id) {
+        var el = document.getElementById(id); if (el) el.style.display = 'none';
+    });
+    ['nav-logged-out','chat-nav-out'].forEach(function(id) {
+        var el = document.getElementById(id); if (el) el.style.display = 'flex';
+    });
+    // Reset nav avatar
+    var av = document.getElementById('nav-avatar-initials'); if (av) av.textContent = '??';
+    var un = document.getElementById('nav-user-name'); if (un) un.textContent = 'Usuário';
     updateSidebarAuth();
 }
 
@@ -1314,21 +1311,18 @@ function toggleChatMenu() {
 function updateNavAuth(user) {
     var initials  = user.name.split(' ').map(function(w){return w[0];}).slice(0,2).join('').toUpperCase();
     var firstName = user.name.split(' ')[0];
-    // Landing nav
-    var el;
-    el = document.getElementById('nav-avatar-initials'); if(el) el.textContent = initials;
-    el = document.getElementById('nav-user-name');       if(el) el.textContent = firstName;
-    el = document.getElementById('dd-name');             if(el) el.textContent = user.name;
-    el = document.getElementById('dd-email');            if(el) el.textContent = user.email;
-    el = document.getElementById('nav-logged-out');      if(el) el.style.display = 'none';
-    el = document.getElementById('nav-logged-in');       if(el) el.style.display = 'flex';
-    // Chat topbar
-    el = document.getElementById('chat-avatar');         if(el) el.textContent = initials;
-    el = document.getElementById('chat-user-name');      if(el) el.textContent = firstName;
-    el = document.getElementById('chat-dd-name');        if(el) el.textContent = user.name;
-    el = document.getElementById('chat-dd-email');       if(el) el.textContent = user.email;
-    el = document.getElementById('chat-nav-out');        if(el) el.style.display = 'none';
-    el = document.getElementById('chat-nav-in');         if(el) el.style.display = 'flex';
+    function set(id, val) { var e = document.getElementById(id); if(e) e.textContent = val; }
+    function show(id, d)  { var e = document.getElementById(id); if(e) e.style.display = d||'flex'; }
+    function hide(id)     { var e = document.getElementById(id); if(e) e.style.display = 'none'; }
+    // Text
+    set('nav-avatar-initials', initials); set('nav-user-name', firstName);
+    set('dd-name', user.name);            set('dd-email', user.email);
+    set('chat-avatar', initials);         set('chat-user-name', firstName);
+    set('chat-dd-name', user.name);       set('chat-dd-email', user.email);
+    // Visibility
+    hide('nav-logged-out');   show('nav-logged-in');
+    hide('chat-nav-out');     show('chat-nav-in');
+    hide('user-dropdown');    hide('chat-dropdown');
     updateSidebarAuth();
 }
 
@@ -1409,22 +1403,204 @@ function updateSidebarAuth() {
 // CHAT
 // ══════════════════════════
 function buildChat() {
-    const c = document.getElementById('chatMessages');
+    var c = document.getElementById('chatMessages');
     c.innerHTML = '';
     conversationHistory = [];
     chatPhase = 'personal';
     userPersonalData = null;
     currentProjectType = null;
-    const session = getSession();
+    var session = getSession();
     if (session) {
-        userPersonalData = { nome: session.name, email: session.email, tel: session.phone || '', cpf: '', endereco: '' };
-        addBotMessage(c, 'Olá, <strong style="color:white">' + session.name.split(' ')[0] + '</strong>! 👋 Seus dados foram carregados automaticamente. Vamos começar o projeto:');
-        setTimeout(() => { chatPhase = 'type'; addBuildingTypeSelector(c); }, 450);
+        userPersonalData = { nome: session.name, email: session.email, tel: session.phone || '', cpf: session.cpf || '', endereco: session.endereco || '' };
+        addBotMessage(c, 'Olá, <strong style="color:white">' + session.name.split(' ')[0] + '</strong>! 👋 Bem-vindo de volta à Building.IA.');
+        setTimeout(function() { addLoginVerificationCard(c, session); }, 400);
     } else {
         addBotMessage(c, 'Olá! Seja bem-vindo à <strong style="color:white">Building.IA</strong>. 🏗️<br><br>Antes de iniciarmos o projeto, precisamos de alguns <strong style="color:white">dados pessoais</strong> para identificar o responsável pela obra.<br><br>Por favor, preencha o formulário abaixo:');
         addPersonalForm(c);
     }
     c.scrollTop = c.scrollHeight;
+}
+
+// ── LOGIN VERIFICATION CARD ──
+function addLoginVerificationCard(container, session) {
+    var w = document.createElement('div');
+    w.className = 'msg-wrap';
+    w.id = 'loginVerifyWrap';
+    var inp = 'width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:8px;padding:8px 12px;font-size:0.82rem;color:white;outline:none;font-family:\'Inter\',sans-serif;box-sizing:border-box';
+    var lbl = 'font-size:0.62rem;color:#374151;font-weight:700;letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:3px';
+    w.innerHTML =
+        '<div class="bot-avatar"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2M20 14h2M15 13v2M9 13v2"/></svg></div>' +
+        '<div style="background:rgba(0,0,0,0.6);border:1px solid rgba(255,255,255,0.08);border-radius:4px 16px 16px 16px;padding:18px 22px;max-width:500px;backdrop-filter:blur(10px);position:relative;overflow:hidden">' +
+        '<div style="position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(59,130,246,0.5),transparent)"></div>' +
+        '<p style="font-size:0.88rem;color:#d1d5db;font-weight:500;margin-bottom:14px">Os dados do seu login estão corretos? Verifique abaixo:</p>' +
+        // Data display
+        '<div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:12px 14px;margin-bottom:12px">' +
+        '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;font-size:0.8rem">' +
+        '<div><span style="color:#4b5563">Nome: </span><span style="color:white;font-weight:500" id="vfy-nome-txt">' + (session.name||'—') + '</span></div>' +
+        '<div><span style="color:#4b5563">E-mail: </span><span style="color:white;font-weight:500" id="vfy-email-txt">' + (session.email||'—') + '</span></div>' +
+        '<div><span style="color:#4b5563">Telefone: </span><span style="color:white;font-weight:500" id="vfy-tel-txt">' + (session.phone||'—') + '</span></div>' +
+        '<div><span style="color:#4b5563">CPF: </span><span style="color:white;font-weight:500" id="vfy-cpf-txt">' + (session.cpf||'—') + '</span></div>' +
+        '</div></div>' +
+        // Edit form (hidden by default)
+        '<div id="vfy-edit-form" style="display:none;flex-direction:column;gap:8px;margin-bottom:12px">' +
+        '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">' +
+        '<div><label style="' + lbl + '">Nome Completo</label><input id="vfy-nome" type="text" value="' + (session.name||'') + '" style="' + inp + '"></div>' +
+        '<div><label style="' + lbl + '">CPF</label><input id="vfy-cpf" type="text" value="' + (session.cpf||'') + '" maxlength="14" oninput="formatCPF(this)" style="' + inp + '"></div>' +
+        '</div>' +
+        '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">' +
+        '<div><label style="' + lbl + '">E-mail</label><input id="vfy-email" type="email" value="' + (session.email||'') + '" style="' + inp + '"></div>' +
+        '<div><label style="' + lbl + '">Telefone</label><input id="vfy-tel" type="text" value="' + (session.phone||'') + '" maxlength="15" oninput="formatPhone(this)" style="' + inp + '"></div>' +
+        '</div>' +
+        '<div><label style="' + lbl + '">Endereço</label><input id="vfy-endereco" type="text" value="' + (session.endereco||'') + '" placeholder="Rua, número, bairro, cidade" style="' + inp + '"></div>' +
+        '<button onclick="saveVerifyEdits()" style="background:linear-gradient(135deg,#3b82f6,#2563eb);border:none;border-radius:8px;padding:9px;color:white;font-size:0.82rem;font-weight:600;cursor:pointer;font-family:\'Space Grotesk\',sans-serif;width:100%">Salvar Alterações</button>' +
+        '</div>' +
+        // Buttons
+        '<div style="display:flex;gap:8px">' +
+        '<button onclick="toggleVerifyEdit()" id="btn-vfy-edit" style="flex:1;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:9px;padding:9px;color:#9ca3af;font-size:0.8rem;cursor:pointer;font-family:\'Inter\',sans-serif;display:flex;align-items:center;justify-content:center;gap:6px">' +
+        '<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4z"/></svg>' +
+        'Editar Dados</button>' +
+        '<button onclick="confirmVerifyData()" style="flex:2;background:linear-gradient(135deg,#22c55e,#16a34a);border:none;border-radius:9px;padding:9px;color:white;font-size:0.82rem;font-weight:700;cursor:pointer;font-family:\'Space Grotesk\',sans-serif;display:flex;align-items:center;justify-content:center;gap:6px">' +
+        '<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>' +
+        'Dados Corretos — Continuar</button>' +
+        '</div></div>';
+    container.appendChild(w);
+    container.scrollTop = container.scrollHeight;
+}
+
+function toggleVerifyEdit() {
+    var form = document.getElementById('vfy-edit-form');
+    var btn  = document.getElementById('btn-vfy-edit');
+    var open = form.style.display === 'none' || form.style.display === '';
+    form.style.display = open ? 'flex' : 'none';
+    btn.textContent = open ? '✕ Cancelar' : '✎ Editar Dados';
+}
+
+function saveVerifyEdits() {
+    var session = getSession();
+    if (!session) return;
+    session.name     = document.getElementById('vfy-nome').value.trim()     || session.name;
+    session.email    = document.getElementById('vfy-email').value.trim()    || session.email;
+    session.phone    = document.getElementById('vfy-tel').value.trim()      || session.phone;
+    session.cpf      = document.getElementById('vfy-cpf').value.trim()      || session.cpf;
+    session.endereco = document.getElementById('vfy-endereco').value.trim() || session.endereco;
+    // Update in users array too
+    var users = getUsers();
+    var idx = users.findIndex(function(u){ return u.email === session.email; });
+    if (idx >= 0) { users[idx] = Object.assign(users[idx], session); saveUsers(users); }
+    saveSession(session);
+    userPersonalData = { nome: session.name, email: session.email, tel: session.phone||'', cpf: session.cpf||'', endereco: session.endereco||'' };
+    // Update display text
+    var f = function(id, val) { var e = document.getElementById(id); if(e) e.textContent = val||'—'; };
+    f('vfy-nome-txt', session.name); f('vfy-email-txt', session.email);
+    f('vfy-tel-txt', session.phone); f('vfy-cpf-txt', session.cpf);
+    updateNavAuth(session);
+    toggleVerifyEdit();
+}
+
+function confirmVerifyData() {
+    var session = getSession();
+    if (session) {
+        userPersonalData = { nome: session.name, email: session.email, tel: session.phone||'', cpf: session.cpf||'', endereco: session.endereco||'' };
+    }
+    var wrap = document.getElementById('loginVerifyWrap');
+    if (wrap) wrap.remove();
+    var c = document.getElementById('chatMessages');
+    addUserMessage(c, '✅ Dados confirmados — ' + (userPersonalData ? userPersonalData.nome : ''));
+    setTimeout(function() { addOwnerCheckCard(c); }, 400);
+}
+
+// ── OWNER CHECK CARD ──
+function addOwnerCheckCard(container) {
+    var w = document.createElement('div');
+    w.className = 'msg-wrap';
+    w.id = 'ownerCheckWrap';
+    w.innerHTML =
+        '<div class="bot-avatar"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2M20 14h2M15 13v2M9 13v2"/></svg></div>' +
+        '<div style="background:rgba(0,0,0,0.6);border:1px solid rgba(255,255,255,0.08);border-radius:4px 16px 16px 16px;padding:18px 22px;max-width:480px;backdrop-filter:blur(10px);position:relative;overflow:hidden">' +
+        '<div style="position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(59,130,246,0.5),transparent)"></div>' +
+        '<p style="font-size:0.88rem;color:#d1d5db;font-weight:500;margin-bottom:6px">Você é o <strong style="color:white">proprietário da obra</strong>?</p>' +
+        '<p style="font-size:0.76rem;color:#4b5563;margin-bottom:16px">O usuário logado é o dono da construção, ou o projeto é para outra pessoa?</p>' +
+        '<div style="display:flex;gap:10px">' +
+        '<button onclick="confirmOwnerYes()" style="flex:1;background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.25);border-radius:10px;padding:12px;color:#4ade80;font-size:0.84rem;font-weight:600;cursor:pointer;font-family:\'Space Grotesk\',sans-serif;transition:all .2s" onmouseover="this.style.background=\'rgba(34,197,94,0.15)\'" onmouseout="this.style.background=\'rgba(34,197,94,0.08)\'">' +
+        '✅ Sim, sou o dono</button>' +
+        '<button onclick="confirmOwnerNo()" style="flex:1;background:rgba(249,115,22,0.08);border:1px solid rgba(249,115,22,0.25);border-radius:10px;padding:12px;color:#fb923c;font-size:0.84rem;font-weight:600;cursor:pointer;font-family:\'Space Grotesk\',sans-serif;transition:all .2s" onmouseover="this.style.background=\'rgba(249,115,22,0.15)\'" onmouseout="this.style.background=\'rgba(249,115,22,0.08)\'">' +
+        '👤 Não, é para outra pessoa</button>' +
+        '</div>' +
+        '<button onclick="goBackToVerify()" style="background:transparent;border:none;color:#374151;font-size:0.72rem;cursor:pointer;font-family:\'Inter\',sans-serif;text-align:center;padding:6px 0 0;width:100%">← Voltar e revisar meus dados</button>' +
+        '</div></div>';
+    container.appendChild(w);
+    container.scrollTop = container.scrollHeight;
+}
+
+function confirmOwnerYes() {
+    var wrap = document.getElementById('ownerCheckWrap');
+    if (wrap) wrap.remove();
+    var c = document.getElementById('chatMessages');
+    addUserMessage(c, '✅ Sim, sou o proprietário da obra');
+    setTimeout(function() {
+        addBotMessage(c, 'Perfeito! Agora selecione o tipo de edificação que deseja projetar:');
+        setTimeout(function() { chatPhase = 'type'; addBuildingTypeSelector(c); }, 400);
+    }, 350);
+}
+
+function confirmOwnerNo() {
+    var wrap = document.getElementById('ownerCheckWrap');
+    if (wrap) wrap.remove();
+    var c = document.getElementById('chatMessages');
+    addUserMessage(c, '👤 O projeto é para outra pessoa');
+    setTimeout(function() {
+        addBotMessage(c, 'Entendido! Preencha os dados do <strong style="color:white">proprietário da obra</strong>:');
+        setTimeout(function() { addOwnerForm(c); }, 350);
+    }, 350);
+}
+
+function addOwnerForm(container) {
+    var inp = 'width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:8px;padding:8px 12px;font-size:0.82rem;color:white;outline:none;font-family:\'Inter\',sans-serif;box-sizing:border-box';
+    var lbl = 'font-size:0.62rem;color:#374151;font-weight:700;letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:3px';
+    var w = document.createElement('div');
+    w.className = 'msg-wrap';
+    w.id = 'ownerFormWrap';
+    w.innerHTML =
+        '<div class="bot-avatar"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2M20 14h2M15 13v2M9 13v2"/></svg></div>' +
+        '<div style="background:rgba(0,0,0,0.6);border:1px solid rgba(249,115,22,0.2);border-radius:4px 16px 16px 16px;padding:18px 22px;max-width:500px;backdrop-filter:blur(10px);position:relative;overflow:hidden">' +
+        '<div style="position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(249,115,22,0.5),transparent)"></div>' +
+        '<p style="font-family:\'Space Grotesk\',sans-serif;font-size:0.84rem;font-weight:600;color:#fb923c;margin-bottom:14px">👤 Dados do Proprietário da Obra</p>' +
+        '<div style="display:flex;flex-direction:column;gap:8px">' +
+        '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">' +
+        '<div><label style="' + lbl + '">Nome Completo *</label><input id="ow-nome" type="text" placeholder="Nome do proprietário" style="' + inp + '"></div>' +
+        '<div><label style="' + lbl + '">CPF *</label><input id="ow-cpf" type="text" placeholder="000.000.000-00" maxlength="14" oninput="formatCPF(this)" style="' + inp + '"></div>' +
+        '</div>' +
+        '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">' +
+        '<div><label style="' + lbl + '">E-mail</label><input id="ow-email" type="email" placeholder="email@exemplo.com" style="' + inp + '"></div>' +
+        '<div><label style="' + lbl + '">Telefone</label><input id="ow-tel" type="text" placeholder="(00) 90000-0000" maxlength="15" oninput="formatPhone(this)" style="' + inp + '"></div>' +
+        '</div>' +
+        '<div><label style="' + lbl + '">Endereço Completo</label><input id="ow-endereco" type="text" placeholder="Rua, número, bairro, cidade/UF, CEP" style="' + inp + '"></div>' +
+        '<div id="ow-error" style="display:none;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;padding:8px 12px;font-size:0.75rem;color:#f87171">⚠️ Preencha nome e CPF do proprietário.</div>' +
+        '<button onclick="submitOwnerForm()" style="background:linear-gradient(135deg,#f97316,#ea580c);border:none;border-radius:9px;padding:10px;color:white;font-size:0.84rem;font-weight:700;cursor:pointer;font-family:\'Space Grotesk\',sans-serif;width:100%">Confirmar Proprietário →</button>' +
+        '</div></div>';
+    container.appendChild(w);
+    container.scrollTop = container.scrollHeight;
+}
+
+function submitOwnerForm() {
+    var nome = (document.getElementById('ow-nome').value || '').trim();
+    var cpf  = (document.getElementById('ow-cpf').value || '').trim();
+    var email = (document.getElementById('ow-email').value || '').trim();
+    var tel  = (document.getElementById('ow-tel').value || '').trim();
+    var end  = (document.getElementById('ow-endereco').value || '').trim();
+    var errEl = document.getElementById('ow-error');
+    if (!nome || !cpf) { errEl.style.display = 'block'; return; }
+    errEl.style.display = 'none';
+    // Store owner data separately, keep logged user as responsible
+    window.ownerData = { nome: nome, cpf: cpf, email: email, tel: tel, endereco: end };
+    var wrap = document.getElementById('ownerFormWrap');
+    if (wrap) wrap.remove();
+    var c = document.getElementById('chatMessages');
+    addUserMessage(c, 'Proprietário: ' + nome + ' | CPF: ' + cpf);
+    setTimeout(function() {
+        addBotMessage(c, 'Proprietário registrado: <strong style="color:white">' + nome + '</strong> ✅<br><br>Agora selecione o tipo de edificação:');
+        setTimeout(function() { chatPhase = 'type'; addBuildingTypeSelector(c); }, 400);
+    }, 400);
 }
 
 function addBuildingTypeSelector(container) {
@@ -1476,75 +1652,206 @@ function selectBuildingType(type) {
     }, 350);
 }
 
+function calcTerrArea() {
+    var f = parseFloat(document.getElementById('pj-terr-f').value) || 0;
+    var p = parseFloat(document.getElementById('pj-terr-p').value) || 0;
+    if (f > 0 && p > 0) { document.getElementById('pj-terr-area').value = (f * p).toFixed(1); }
+}
+function calcCasaArea() {
+    var f = parseFloat(document.getElementById('pj-casa-f').value) || 0;
+    var p = parseFloat(document.getElementById('pj-casa-p').value) || 0;
+    if (f > 0 && p > 0) { document.getElementById('pj-casa-area').value = (f * p).toFixed(1); }
+}
+function calcMaxCasa() {
+    var tf = parseFloat(document.getElementById('pj-terr-f').value) || 0;
+    var tp = parseFloat(document.getElementById('pj-terr-p').value) || 0;
+    if (!tf || !tp) { alert('Preencha primeiro a frente e profundidade do terreno.'); return; }
+    // Get recuos (default to 0 if 'nao-sei')
+    function recVal(id) { var v = document.getElementById(id) ? document.getElementById(id).value : '0'; return (v === 'nao-sei' || v === '') ? 0 : parseFloat(v) || 0; }
+    var rF  = recVal('pj-rec-f');
+    var rFu = recVal('pj-rec-fu');
+    var rLe = recVal('pj-rec-le');
+    var rLd = recVal('pj-rec-ld');
+    var maxF = Math.max(0, tf - rLe - rLd);
+    var maxP = Math.max(0, tp - rF  - rFu);
+    document.getElementById('pj-casa-f').value = maxF.toFixed(1);
+    document.getElementById('pj-casa-p').value = maxP.toFixed(1);
+    document.getElementById('pj-casa-area').value = (maxF * maxP).toFixed(1);
+}
+// ── BACK NAVIGATION ──
+function goBackToTypeSelector() {
+    // Remove project form (last msg-wrap) and re-show type selector
+    var c = document.getElementById('chatMessages');
+    // Remove last 2 children: user message + form
+    if (c.lastElementChild) c.removeChild(c.lastElementChild);
+    if (c.lastElementChild) c.removeChild(c.lastElementChild);
+    addBotMessage(c, 'Tudo bem! Selecione novamente o tipo de edificação:');
+    setTimeout(function() { addBuildingTypeSelector(c); }, 300);
+}
+
+function goBackToOwnerCheck() {
+    var c = document.getElementById('chatMessages');
+    // Remove building type selector message + user reply
+    if (c.lastElementChild) c.removeChild(c.lastElementChild);
+    if (c.lastElementChild) c.removeChild(c.lastElementChild);
+    addBotMessage(c, 'Certo! Voltando...');
+    setTimeout(function() { addOwnerCheckCard(c); }, 300);
+}
+
+function goBackToVerify() {
+    var c = document.getElementById('chatMessages');
+    if (c.lastElementChild) c.removeChild(c.lastElementChild);
+    if (c.lastElementChild) c.removeChild(c.lastElementChild);
+    var session = getSession();
+    if (session) {
+        addBotMessage(c, 'Revise seus dados:');
+        setTimeout(function() { addLoginVerificationCard(c, session); }, 300);
+    }
+}
+
 function addProjectInfoForm(container, type) {
     var cfgColor = type === 'casa' ? '#60a5fa' : type === 'barracao' ? '#fb923c' : '#a78bfa';
     var cfgLabel = type === 'casa' ? 'Casa Residencial' : type === 'barracao' ? 'Barracão / Galpão' : 'Prédio Multifamiliar';
     var btnGrad  = type === 'casa' ? '#3b82f6,#2563eb' : type === 'barracao' ? '#f97316,#ea580c' : '#8b5cf6,#7c3aed';
-
+    var sel = 'width:100%;background:#0a0a0a;border:1px solid rgba(255,255,255,0.09);border-radius:8px;padding:9px 12px;font-size:0.82rem;color:#9ca3af;outline:none;font-family:\'Inter\',sans-serif;box-sizing:border-box';
     var inp = 'width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:8px;padding:9px 12px;font-size:0.82rem;color:white;outline:none;font-family:\'Inter\',sans-serif;box-sizing:border-box';
-    var lbl = 'font-size:0.64rem;color:#374151;font-weight:700;letter-spacing:.07em;text-transform:uppercase;display:block;margin-bottom:4px';
+    var lbl = 'font-size:0.63rem;color:#374151;font-weight:700;letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:4px';
+    var sec = 'font-size:0.68rem;color:#60a5fa;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:10px 0 6px;border-bottom:1px solid rgba(255,255,255,0.05);margin-bottom:2px';
+    var note = 'font-size:0.65rem;color:#374151;margin-bottom:6px';
+
     var w = document.createElement('div');
     w.className = 'msg-wrap';
     w.innerHTML =
         '<div class="bot-avatar"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2M20 14h2M15 13v2M9 13v2"/></svg></div>' +
-        '<div style="background:rgba(0,0,0,0.6);border:1px solid rgba(255,255,255,0.08);border-radius:4px 16px 16px 16px;padding:20px 24px;max-width:520px;backdrop-filter:blur(10px);position:relative;overflow:hidden">' +
+        '<div style="background:rgba(0,0,0,0.6);border:1px solid rgba(255,255,255,0.08);border-radius:4px 16px 16px 16px;padding:20px 24px;max-width:420px;backdrop-filter:blur(10px);position:relative;overflow:hidden">' +
         '<div style="position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,' + cfgColor + '66,transparent)"></div>' +
-        '<p style="font-family:\'Space Grotesk\',sans-serif;font-size:0.85rem;font-weight:600;color:' + cfgColor + ';margin-bottom:14px">📋 Dados do Projeto — ' + cfgLabel + '</p>' +
-        '<div style="display:flex;flex-direction:column;gap:10px">' +
-        '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">' +
-        '<div><label style="' + lbl + '">Pavimentos *</label><input id="pj-pav" type="number" min="1" max="30" placeholder="Ex: 2" style="' + inp + '"></div>' +
-        '<div><label style="' + lbl + '">Área Terreno m² *</label><input id="pj-terreno" type="number" min="1" placeholder="Ex: 300" style="' + inp + '"></div>' +
+
+        // Header + back button
+        '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">' +
+        '<p style="font-family:\'Space Grotesk\',sans-serif;font-size:0.85rem;font-weight:600;color:' + cfgColor + ';margin:0">📋 Dados do Projeto — ' + cfgLabel + '</p>' +
+        '<button onclick="goBackToTypeSelector()" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:7px;padding:4px 10px;color:#6b7280;font-size:0.72rem;cursor:pointer;font-family:\'Inter\',sans-serif;display:flex;align-items:center;gap:4px" title="Voltar">' +
+        '<svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7M19 12H5"/></svg>Voltar</button>' +
         '</div>' +
-        '<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px">' +
-        '<div><label style="font-size:0.6rem;color:#374151;font-weight:700;text-transform:uppercase;display:block;margin-bottom:4px">Rec.Frente</label><input id="pj-rec-f" type="number" step="0.1" placeholder="5" style="' + inp + ';text-align:center;padding:9px 4px"></div>' +
-        '<div><label style="font-size:0.6rem;color:#374151;font-weight:700;text-transform:uppercase;display:block;margin-bottom:4px">Rec.Fundo</label><input id="pj-rec-fu" type="number" step="0.1" placeholder="3" style="' + inp + ';text-align:center;padding:9px 4px"></div>' +
-        '<div><label style="font-size:0.6rem;color:#374151;font-weight:700;text-transform:uppercase;display:block;margin-bottom:4px">Lat.Esq</label><input id="pj-rec-le" type="number" step="0.1" placeholder="1.5" style="' + inp + ';text-align:center;padding:9px 4px"></div>' +
-        '<div><label style="font-size:0.6rem;color:#374151;font-weight:700;text-transform:uppercase;display:block;margin-bottom:4px">Lat.Dir</label><input id="pj-rec-ld" type="number" step="0.1" placeholder="1.5" style="' + inp + ';text-align:center;padding:9px 4px"></div>' +
-        '</div>' +
-        '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">' +
+        '<p style="' + note + '">Todas as medidas em metros (m)</p>' +
+        '<div style="display:flex;flex-direction:column;gap:8px">' +
+
+        // ── SEÇÃO 1: EDIFICAÇÃO ──
+        '<div style="' + sec + '">🏗 Edificação</div>' +
+        '<div><label style="' + lbl + '">Nº de Pavimentos *</label><input id="pj-pav" type="number" min="1" max="30" placeholder="Ex: 2" style="' + inp + '"></div>' +
         '<div><label style="' + lbl + '">Quartos</label><input id="pj-quartos" type="number" min="0" placeholder="Ex: 3" style="' + inp + '"></div>' +
         '<div><label style="' + lbl + '">Banheiros *</label><input id="pj-banhos" type="number" min="1" placeholder="Ex: 2" style="' + inp + '"></div>' +
-        '</div>' +
-        '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">' +
         '<div><label style="' + lbl + '">Tipo de Solo</label>' +
-        '<select id="pj-solo" style="width:100%;background:#0a0a0a;border:1px solid rgba(255,255,255,0.09);border-radius:8px;padding:9px 12px;font-size:0.82rem;color:#9ca3af;outline:none;font-family:\'Inter\',sans-serif;box-sizing:border-box">' +
+        '<select id="pj-solo" style="' + sel + '">' +
         '<option value="">Selecione</option><option value="argiloso">Argiloso</option><option value="arenoso">Arenoso</option><option value="rochoso">Rochoso</option><option value="misto">Misto</option><option value="nao-sei">Não sei</option>' +
         '</select></div>' +
-        '<div><label style="' + lbl + '">Cidade / Estado *</label><input id="pj-cidade" type="text" placeholder="Ex: São Paulo/SP" style="' + inp + '"></div>' +
-        '</div>' +
-        '<div id="pj-error" style="display:none;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;padding:8px 12px;font-size:0.76rem;color:#f87171">⚠️ Preencha os campos obrigatórios (*).</div>' +
-        '<button onclick="submitProjectForm(\'' + type + '\')" style="background:linear-gradient(135deg,' + btnGrad + ');border:none;border-radius:10px;padding:11px;color:white;font-size:0.85rem;font-weight:700;cursor:pointer;font-family:\'Space Grotesk\',sans-serif;width:100%">Gerar Projeto →</button>' +
+
+        // ── SEÇÃO 2: TERRENO ──
+        '<div style="' + sec + '">📐 Terreno</div>' +
+        '<p style="' + note + '">Frente × Profundidade calcula a área automaticamente</p>' +
+        '<div><label style="' + lbl + '">Frente do Terreno (m)</label><input id="pj-terr-f" type="number" step="0.1" placeholder="Ex: 12" oninput="calcTerrArea()" style="' + inp + '"></div>' +
+        '<div><label style="' + lbl + '">Profundidade do Terreno (m)</label><input id="pj-terr-p" type="number" step="0.1" placeholder="Ex: 25" oninput="calcTerrArea()" style="' + inp + '"></div>' +
+        '<div><label style="' + lbl + '">Área Total do Terreno (m²) — calculada automaticamente, editável</label><input id="pj-terr-area" type="number" step="0.1" placeholder="Preenchida ao digitar frente e profundidade" style="' + inp + '"></div>' +
+
+        // ── SEÇÃO 3: CASA DESEJADA ──
+        '<div style="' + sec + '">🏠 Tamanho da Casa Desejada</div>' +
+        '<p style="' + note + '">Frente × Profundidade calcula a área. Ou use o botão para calcular o máximo possível.</p>' +
+        '<div><label style="' + lbl + '">Frente da Casa (m)</label><input id="pj-casa-f" type="number" step="0.1" placeholder="Ex: 8" oninput="calcCasaArea()" style="' + inp + '"></div>' +
+        '<div><label style="' + lbl + '">Profundidade da Casa (m)</label><input id="pj-casa-p" type="number" step="0.1" placeholder="Ex: 12" oninput="calcCasaArea()" style="' + inp + '"></div>' +
+        '<div><label style="' + lbl + '">Área Total da Casa (m²) — calculada automaticamente, editável</label><input id="pj-casa-area" type="number" step="0.1" placeholder="Preenchida ao digitar frente e profundidade" style="' + inp + '"></div>' +
+        '<button onclick="calcMaxCasa()" style="background:rgba(59,130,246,0.07);border:1px solid rgba(59,130,246,0.2);border-radius:8px;padding:9px 14px;color:#60a5fa;font-size:0.76rem;cursor:pointer;font-family:\'Inter\',sans-serif;display:flex;align-items:center;gap:6px;width:100%;justify-content:center">' +
+        '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>' +
+        'Calcular Maior Possível (dentro dos recuos)</button>' +
+
+        // ── SEÇÃO 4: RECUOS ──
+        '<div style="' + sec + '">↔️ Recuos</div>' +
+        '<p style="' + note + '">Distância da construção até os limites do terreno — deixe "Não sei" se não souber</p>' +
+        '<div><label style="' + lbl + '">Recuo Frente (m)</label>' +
+        '<select id="pj-rec-f" style="' + sel + '"><option value="nao-sei">Não sei</option><option value="0">0 m</option><option value="1">1 m</option><option value="1.5">1,5 m</option><option value="2">2 m</option><option value="3">3 m</option><option value="4">4 m</option><option value="5">5 m</option></select></div>' +
+        '<div><label style="' + lbl + '">Recuo Fundo (m)</label>' +
+        '<select id="pj-rec-fu" style="' + sel + '"><option value="nao-sei">Não sei</option><option value="0">0 m</option><option value="1">1 m</option><option value="1.5">1,5 m</option><option value="2">2 m</option><option value="3">3 m</option><option value="4">4 m</option><option value="5">5 m</option></select></div>' +
+        '<div><label style="' + lbl + '">Recuo Lateral Esquerdo (m)</label>' +
+        '<select id="pj-rec-le" style="' + sel + '"><option value="nao-sei">Não sei</option><option value="0">0 m</option><option value="1">1 m</option><option value="1.5">1,5 m</option><option value="2">2 m</option><option value="3">3 m</option><option value="4">4 m</option><option value="5">5 m</option></select></div>' +
+        '<div><label style="' + lbl + '">Recuo Lateral Direito (m)</label>' +
+        '<select id="pj-rec-ld" style="' + sel + '"><option value="nao-sei">Não sei</option><option value="0">0 m</option><option value="1">1 m</option><option value="1.5">1,5 m</option><option value="2">2 m</option><option value="3">3 m</option><option value="4">4 m</option><option value="5">5 m</option></select></div>' +
+
+        // ── SEÇÃO 5: LOCALIZAÇÃO ──
+        '<div style="' + sec + '">📍 Localização da Obra</div>' +
+        '<div><label style="' + lbl + '">País *</label><input id="pj-pais" type="text" placeholder="Brasil" value="Brasil" style="' + inp + '"></div>' +
+        '<div><label style="' + lbl + '">Estado *</label><input id="pj-estado" type="text" placeholder="Ex: São Paulo" style="' + inp + '"></div>' +
+        '<div><label style="' + lbl + '">Cidade *</label><input id="pj-cidade" type="text" placeholder="Ex: Campinas" style="' + inp + '"></div>' +
+        '<div><label style="' + lbl + '">Bairro</label><input id="pj-bairro" type="text" placeholder="Ex: Jardim das Flores" style="' + inp + '"></div>' +
+        '<div><label style="' + lbl + '">Quadra</label><input id="pj-quadra" type="text" placeholder="Ex: Q-12" style="' + inp + '"></div>' +
+        '<div><label style="' + lbl + '">Lote</label><input id="pj-lote" type="text" placeholder="Ex: L-04" style="' + inp + '"></div>' +
+
+        '<div id="pj-error" style="display:none;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;padding:8px 12px;font-size:0.76rem;color:#f87171">⚠️ Preencha: pavimentos, banheiros, cidade e estado.</div>' +
+        '<button onclick="submitProjectForm(\'' + type + '\')" style="background:linear-gradient(135deg,' + btnGrad + ');border:none;border-radius:10px;padding:12px;color:white;font-size:0.86rem;font-weight:700;cursor:pointer;font-family:\'Space Grotesk\',sans-serif;width:100%;margin-top:4px">Gerar Projeto →</button>' +
         '</div></div>';
     container.appendChild(w);
     container.scrollTop = container.scrollHeight;
 }
 
 function submitProjectForm(type) {
-    var pav    = (document.getElementById('pj-pav').value || '').trim();
-    var terr   = (document.getElementById('pj-terreno').value || '').trim();
-    var quartos= (document.getElementById('pj-quartos').value || '0').trim();
-    var banhos = (document.getElementById('pj-banhos').value || '').trim();
-    var cidade = (document.getElementById('pj-cidade').value || '').trim();
-    var recF   = document.getElementById('pj-rec-f').value || '—';
-    var recFu  = document.getElementById('pj-rec-fu').value || '—';
-    var recLe  = document.getElementById('pj-rec-le').value || '—';
-    var recLd  = document.getElementById('pj-rec-ld').value || '—';
-    var solo   = document.getElementById('pj-solo').value || 'Não informado';
-    var errEl  = document.getElementById('pj-error');
-    if (!pav || !terr || !cidade || !banhos) { errEl.style.display = 'block'; return; }
+    var pav      = (document.getElementById('pj-pav').value || '').trim();
+    var quartos  = (document.getElementById('pj-quartos').value || '0').trim();
+    var banhos   = (document.getElementById('pj-banhos').value || '').trim();
+    var solo     = document.getElementById('pj-solo').value || 'Não informado';
+    // Terreno
+    var terrF    = document.getElementById('pj-terr-f').value || '';
+    var terrP    = document.getElementById('pj-terr-p').value || '';
+    var terrArea = document.getElementById('pj-terr-area').value || '';
+    var terrStr  = terrF && terrP ? terrF + 'm × ' + terrP + 'm' : terrArea ? terrArea + 'm²' : 'Não informado';
+    // Casa desejada
+    var casaF    = document.getElementById('pj-casa-f').value || '';
+    var casaP    = document.getElementById('pj-casa-p').value || '';
+    var casaArea = document.getElementById('pj-casa-area').value || '';
+    var casaStr  = casaF && casaP ? casaF + 'm × ' + casaP + 'm' : casaArea ? casaArea + 'm²' : 'Não informado';
+    // Recuos
+    var recF  = document.getElementById('pj-rec-f').value  || 'Não sei';
+    var recFu = document.getElementById('pj-rec-fu').value || 'Não sei';
+    var recLe = document.getElementById('pj-rec-le').value || 'Não sei';
+    var recLd = document.getElementById('pj-rec-ld').value || 'Não sei';
+    function recLabel(v) { return v === 'nao-sei' ? 'Não sei' : v + 'm'; }
+    // Localização
+    var pais   = document.getElementById('pj-pais').value.trim()   || 'Brasil';
+    var estado = document.getElementById('pj-estado').value.trim() || '';
+    var cidade = document.getElementById('pj-cidade').value.trim() || '';
+    var bairro = document.getElementById('pj-bairro').value.trim() || '';
+    var quadra = document.getElementById('pj-quadra').value.trim() || '';
+    var lote   = document.getElementById('pj-lote').value.trim()   || '';
+    var locStr = [pais, estado, cidade, bairro, quadra ? 'Qd '+quadra : '', lote ? 'Lt '+lote : ''].filter(Boolean).join(' / ');
+
+    var errEl = document.getElementById('pj-error');
+    if (!pav || !banhos || !cidade || !estado) { errEl.style.display = 'block'; return; }
     errEl.style.display = 'none';
+
     var labels = { casa:'Casa Residencial', barracao:'Barracão/Galpão', predio:'Prédio Multifamiliar' };
-    var summary = 'Tipo: ' + labels[type] + ' | ' + pav + ' pav. | Terreno: ' + terr + 'm² | Recuos: F' + recF + '/Fu' + recFu + '/LE' + recLe + '/LD' + recLd + 'm | Quartos: ' + (quartos||'N/A') + ' | Banheiros: ' + banhos + ' | Solo: ' + solo + ' | Cidade: ' + cidade;
-    var proj = { id: Date.now(), type: type, label: labels[type], pav: pav, terr: terr, quartos: quartos, banhos: banhos, cidade: cidade, solo: solo, createdAt: new Date().toLocaleString('pt-BR'), responsible: userPersonalData };
+    var summary =
+        'Tipo: ' + labels[type] +
+        ' | Pav: ' + pav +
+        ' | Quartos: ' + (quartos || 'N/A') +
+        ' | Banheiros: ' + banhos +
+        ' | Terreno: ' + terrStr +
+        ' | Casa: ' + casaStr +
+        ' | Recuos F:' + recLabel(recF) + ' Fu:' + recLabel(recFu) + ' LE:' + recLabel(recLe) + ' LD:' + recLabel(recLd) +
+        ' | Solo: ' + solo +
+        ' | Local: ' + locStr;
+
+    var proj = {
+        id: Date.now(), type: type, label: labels[type], pav: pav,
+        terreno: terrStr, casa: casaStr, quartos: quartos, banhos: banhos,
+        cidade: cidade, estado: estado, bairro: bairro, quadra: quadra, lote: lote, pais: pais,
+        solo: solo, createdAt: new Date().toLocaleString('pt-BR'), responsible: userPersonalData
+    };
     currentProjectId = proj.id;
     saveProject(proj);
+
     var c = document.getElementById('chatMessages');
     if (c.lastElementChild) c.lastElementChild.remove();
     addUserMessage(c, summary);
     showTyping(c);
     setTimeout(function() {
         removeTyping();
-        var reply = getProjectCombinationResponse(type, parseInt(pav)||1, parseInt(quartos)||0, parseInt(banhos)||1, terr, cidade, solo);
+        var reply = getProjectCombinationResponse(type, parseInt(pav)||1, parseInt(quartos)||0, parseInt(banhos)||1, terrStr, locStr, solo);
         addBotMessage(c, reply);
         var qa = document.createElement('div');
         qa.className = 'flex flex-wrap gap-2';
