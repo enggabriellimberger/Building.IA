@@ -34,7 +34,7 @@ window.MP_CONFIG = {
     // São os campos projectId e apiKey do bloco firebaseConfig.
     // Ambos são públicos por natureza; a proteção vem das regras
     // do Firestore, que negam escrita pelo navegador.
-    firebaseProjectId: '',
-    firebaseApiKey: ''
+    firebaseProjectId: 'building-ia',
+    firebaseApiKey: 'AIzaSyA0Tbgeb884X0eBO1CnwPde3HbX8bzUKc0'
 
 };
