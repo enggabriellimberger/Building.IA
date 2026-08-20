@@ -20,9 +20,8 @@ window.MP_CONFIG = {
     // ── 1. Public Key do Mercado Pago ────────────────────────────
     // Onde achar: mercadopago.com.br/developers/panel
     //   → Suas integrações → sua aplicação → Credenciais
-    // Comece pela de TESTE (começa com TEST-). Só troque pela de
-    // produção depois que todo o fluxo funcionar.
-    publicKey: 'TEST-826b480d-5121-462c-96e3-7dbf59cd2e51',
+    // Em PRODUÇÃO: cobranças e pagamentos são reais.
+    publicKey: 'APP_USR-f5c2fb43-219c-44c6-99eb-54448f1a148c',
 
     // ── 2. Endereço do backend na Vercel ─────────────────────────
     // A URL do Cloudflare Worker. SEM barra no final.
