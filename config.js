@@ -26,7 +26,7 @@ window.MP_CONFIG = {
 
     // ── 2. Endereço do backend na Vercel ─────────────────────────
     // A URL do Cloudflare Worker. SEM barra no final.
-    backend: 'https://building-ia-pagamentos.enggabriellimberger.workers.dev',
+    backend: 'https://building-ia-pagamentos.gabriel-elias-limberger.workers.dev',
 
     // ── 3. Firebase ──────────────────────────────────────────────
     // Onde achar: console.firebase.google.com
