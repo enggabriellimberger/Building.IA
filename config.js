@@ -21,7 +21,7 @@ window.MP_CONFIG = {
     // Onde achar: mercadopago.com.br/developers/panel
     //   → Suas integrações → sua aplicação → Credenciais
     // Em PRODUÇÃO: cobranças e pagamentos são reais.
-    publicKey: 'APP_USR-f5c2fb43-219c-44c6-99eb-54448f1a148c',
+    publicKey: 'TEST-f5c2fb43-219c-44c6-99eb-54448f1a148c',
 
     // ── 2. Endereço do backend na Vercel ─────────────────────────
     // A URL do Cloudflare Worker. SEM barra no final.
