@@ -8,26 +8,30 @@
          o navegador recusa: o domínio não está na lista.
 
          De propósito NÃO existe aqui default-src nem connect-src. Sem
-         eles, fetch/XHR seguem livres — as chamadas ao backend, ao
-         Firebase, ao Mercado Pago e ao Google Sheets não são afetadas.
-         Se um dia quiser trancar isso também, é preciso listar o
-         domínio do seu Worker (MP_CONFIG.backend) aqui.
+         eles, fetch/XHR seguem livres — as chamadas ao Worker e ao
+         Mercado Pago não são afetadas. Para trancar isso também é
+         preciso listar o domínio do seu Worker (MP_CONFIG.backend), o
+         que só vale a pena quando o endereço for definitivo.
 
-         'unsafe-inline' e 'unsafe-eval' são necessários hoje: a página
-         usa onclick= no HTML e o Tailwind via CDN gera código em
-         tempo de execução. Enquanto estiverem aqui, o CSP barra script
-         de fora, mas não barra script inline injetado — a defesa contra
-         isso continua sendo o escHtml() na hora de montar o HTML.
+         22/09/2026 — a lista encolheu:
+           · saíram gstatic, googleapis e apis.google, que só serviam ao
+             Firebase, agora removido da página;
+           · 'unsafe-eval' virou 'wasm-unsafe-eval'. O primeiro liberava
+             eval() e new Function() — exatamente o que um script
+             injetado quer. Não há eval nenhum no código; quem precisa
+             de permissão é o WebAssembly do reconhecimento de texto
+             (tesseract) e do leitor de PDF.
+
+         'unsafe-inline' continua necessário: a página usa onclick= no
+         HTML. Enquanto ele estiver aqui, o CSP barra script de fora,
+         mas não barra script inline injetado — a defesa contra isso
+         continua sendo o escHtml() na hora de montar o HTML.
     ══════════════════════════════════════════════════════════════ -->
     <meta http-equiv="Content-Security-Policy" content="
-        script-src 'self' 'unsafe-inline' 'unsafe-eval'
+        script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'
                    https://cdnjs.cloudflare.com
                    https://cdn.jsdelivr.net
                    https://unpkg.com
-                   https://www.gstatic.com
-                   https://*.gstatic.com
-                   https://apis.google.com
-                   https://*.googleapis.com
                    https://sdk.mercadopago.com
                    https://*.mercadopago.com
                    https://*.mercadolibre.com
@@ -191,10 +195,6 @@ Check your Browserslist config to be sure that your targets are set up correctly
     <script src="https://sdk.mercadopago.com/js/v2"></script>
     <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js" integrity="sha384-OUW9euuUyxyHcAhTqbhI+Iyb8LMssXt/cpz0yXhs9UWG2/R/uaWdakx/4cfww7Vb" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha384-JcnsjUPPylna1s1fvi1u12X5qjY5OL56iySh75FdtrwhO/SWXgMjoVqcKyIIWOLk" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <!-- Firebase (opcional): backend gratuito para autenticação e sincronização de projetos -->
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js" integrity="sha384-yuGdyIzzYtOBlBG6JOWn+Ey9kpq7HocusNuxEGyyohr1eEyXpeEyehIIXC/hznw4" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js" integrity="sha384-lI+CxEx/bCvWP1b0OK13j5HTrTZP7yf1xle8TVOFq2smz6KC1RChTarRV/RHP5PP" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js" integrity="sha384-nwX2Qpkhc2sv6L0ZPkLefLGguao67toSowvePuQvGF6cG+8MUphGI2uI94Ls3JF7" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Building.IA - Engenharia Estrutural Inteligente</title>
         <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -3723,96 +3723,30 @@ const SESSION_KEY = 'building_ia_session';
 // planilha. Removido.
 
 // ══════════════════════════════════════════════════════════════════
-// BACKEND OPCIONAL — FIREBASE (Firestore + Auth)
+// FIREBASE — REMOVIDO EM 22/09/2026
 // ══════════════════════════════════════════════════════════════════
-// Para ativar a nuvem gratuita:
-// 1. Crie um projeto em https://console.firebase.google.com (grátis)
-// 2. Adicione um app Web e copie o firebaseConfig
-// 3. Cole abaixo e a sincronização ativa automaticamente
-// Se ficar como null, o site continua funcionando 100% offline com localStorage.
-var FIREBASE_CONFIG = null; // { apiKey, authDomain, projectId, ... }
+//
+//  Era um backend alternativo (Firestore + Auth) que nunca chegou a ser
+//  ligado: a configuração ficava em null e todas as chamadas estavam
+//  atrás de um "if" que nunca era verdadeiro. Mesmo assim, três scripts
+//  do Firebase eram baixados em TODA visita e a chave do projeto ficava
+//  no config.js, à vista.
+//
+//  Código que não roda ainda é superfície de ataque: se alguém achar um
+//  jeito de ligar a configuração (uma variável global escrita por outro
+//  script), passa a existir um caminho para gravar dados no seu projeto
+//  do Google. Contas e projetos vivem no Worker, que confere sessão e
+//  dono. Por isso o Firebase saiu inteiro daqui.
+//
+//  Se o projeto ainda existir no seu console do Google, vale apagar ou
+//  conferir se as regras do Firestore estão fechadas.
+//
+//  Os três ganchos abaixo continuam porque o cadastro, o login e o
+//  salvamento ainda os chamam. Hoje não fazem nada.
 
-var _fbApp = null, _fbAuth = null, _fbDb = null, _fbUser = null;
-
-function initFirebase() {
-    if (!FIREBASE_CONFIG || typeof firebase === 'undefined') return false;
-    try {
-        if (!firebase.apps.length) _fbApp = firebase.initializeApp(FIREBASE_CONFIG);
-        else _fbApp = firebase.app();
-        _fbAuth = firebase.auth();
-        _fbDb   = firebase.firestore();
-        _fbAuth.onAuthStateChanged(function(user) {
-            _fbUser = user;
-            if (user) syncProjectsFromCloud();
-        });
-        return true;
-    } catch(e) {
-        console.warn('Firebase init falhou — modo offline:', e.message);
-        return false;
-    }
-}
-
-async function fbSignUp(email, password, name) {
-    if (!_fbAuth) return null;
-    try {
-        var cred = await _fbAuth.createUserWithEmailAndPassword(email, password);
-        await _fbDb.collection('users').doc(cred.user.uid).set({
-            name: name, email: email, createdAt: new Date().toISOString()
-        });
-        return cred.user;
-    } catch(e) { console.warn('Firebase signup:', e.message); return null; }
-}
-
-async function fbSignIn(email, password) {
-    if (!_fbAuth) return null;
-    try {
-        var cred = await _fbAuth.signInWithEmailAndPassword(email, password);
-        return cred.user;
-    } catch(e) { console.warn('Firebase signin:', e.message); return null; }
-}
-
-async function fbSaveProject(proj) {
-    if (!_fbAuth || !_fbUser) return;
-    try {
-        await _fbDb.collection('users').doc(_fbUser.uid)
-            .collection('projects').doc(String(proj.id))
-            .set(proj);
-    } catch(e) { console.warn('fbSaveProject:', e.message); }
-}
-
-async function syncProjectsFromCloud() {
-    if (!_fbUser) return;
-    try {
-        var snap = await _fbDb.collection('users').doc(_fbUser.uid).collection('projects').get();
-        var cloud = []; snap.forEach(function(d) { cloud.push(d.data()); });
-        var local = getUserProjects();
-        // Merge — projetos únicos por id
-        var merged = local.slice();
-        cloud.forEach(function(cp) {
-            if (!merged.find(function(l) { return String(l.id) === String(cp.id); })) merged.push(cp);
-        });
-        localStorage.setItem(getUserProjectsKey(), JSON.stringify(merged));
-        renderProjects();
-    } catch(e) { console.warn('syncProjects:', e.message); }
-}
-
-// Hooks called from existing register/login/save flows
-function backendOnRegister(name, email, password) {
-    if (FIREBASE_CONFIG) fbSignUp(email, password, name);
-}
-function backendOnLogin(email, password) {
-    if (FIREBASE_CONFIG) fbSignIn(email, password);
-}
-function backendOnSaveProject(proj) {
-    if (FIREBASE_CONFIG) fbSaveProject(proj);
-}
-
-// Auto-init on page load
-if (typeof window !== 'undefined') {
-    document.addEventListener('DOMContentLoaded', function() {
-        if (FIREBASE_CONFIG) initFirebase();
-    });
-}
+function backendOnRegister(name, email, password) {}
+function backendOnLogin(email, password) {}
+function backendOnSaveProject(proj) {}
 
 
 
@@ -7140,7 +7074,7 @@ function nuvemAtualizarIndicador() {
 // A configuração agora vive em config.js, um arquivo pequeno que
 // pode ser editado direto pelo GitHub. Se ele não carregar, os
 // valores abaixo entram como padrão e o site cai no PIX manual.
-var MP_CONFIG = window.MP_CONFIG || { publicKey:'', backend:'', firebaseProjectId:'', firebaseApiKey:'' };
+var MP_CONFIG = window.MP_CONFIG || { publicKey:'', backend:'' };
 
 // ══════════════════════════════════════════════════════════════════
 //  CONFIRMAÇÃO DE E-MAIL E TROCA DE SENHA
@@ -7378,7 +7312,7 @@ function mpInstancia() {
     return _mpSdk;
 }
 
-// ── Consulta no Firestore se o webhook já confirmou o pagamento ──
+// ── Pergunta ao Worker se o webhook já confirmou o pagamento ──
 // Esta é a única confirmação em que se pode confiar: quem grava ali
 // é o servidor, depois de validar a assinatura do Mercado Pago.
 function mpVerificarLiberacao(projetoId, tipo, cb) {
@@ -7388,11 +7322,22 @@ function mpVerificarLiberacao(projetoId, tipo, cb) {
     // Quem decide é o servidor. Antes a marca local vinha primeiro e
     // encerrava a consulta — uma compra estornada continuava aparecendo
     // como liberada. Agora a marca só vale se a rede cair.
-    var url = MP_CONFIG.backend + '/api/liberacao?ref=' +
-              encodeURIComponent(projetoId + '|' + tipo);
-    fetch(url)
-        .then(function(r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+    // A rota exige sessão e só responde ao dono da compra: sem isso,
+    // qualquer um consultava uma referência e via o que foi pago e
+    // quando. nuvemFetch já manda o token da conta.
+    if (typeof nuvemToken === 'function' && !nuvemToken()) { cb(false, {}); return; }
+
+    var rota = '/api/liberacao?ref=' + encodeURIComponent(projetoId + '|' + tipo);
+    nuvemFetch(rota)
+        .then(function(r) {
+            // Sessão vencida: não vale cair na marca local, que a pessoa
+            // consegue forjar no próprio navegador.
+            if (r.status === 401 || r.status === 403) { pgDesliberar(projetoId, tipo); cb(false, {}); return null; }
+            if (!r.ok) throw new Error('HTTP ' + r.status);
+            return r.d;
+        })
         .then(function(d) {
+            if (d === null) return;
             var ok = !!(d && d.liberado);
             if (ok) pgLiberar(projetoId, 'Mercado Pago' + (d.pagamentoId ? ' · ' + d.pagamentoId : ''), tipo);
             else pgDesliberar(projetoId, tipo);

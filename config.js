@@ -23,17 +23,12 @@ window.MP_CONFIG = {
     // Em PRODUÇÃO: cobranças e pagamentos são reais.
     publicKey: 'APP_USR-f5c2fb43-219c-44c6-99eb-54448f1a148c',
 
-    // ── 2. Endereço do backend na Vercel ─────────────────────────
+    // ── 2. Endereço do backend ───────────────────────────────────
     // A URL do Cloudflare Worker. SEM barra no final.
-    backend: 'https://building-ia-pagamentos.gabriel-elias-limberger.workers.dev',
+    backend: 'https://building-ia-pagamentos.gabriel-elias-limberger.workers.dev'
 
-    // ── 3. Firebase ──────────────────────────────────────────────
-    // Onde achar: console.firebase.google.com
-    //   → Configurações do projeto → Seus apps → app Web
-    // São os campos projectId e apiKey do bloco firebaseConfig.
-    // Ambos são públicos por natureza; a proteção vem das regras
-    // do Firestore, que negam escrita pelo navegador.
-    firebaseProjectId: 'building-ia',
-    firebaseApiKey: 'AIzaSyA0Tbgeb884X0eBO1CnwPde3HbX8bzUKc0'
+    // O Firebase saiu do site em 22/09/2026: nunca chegou a ser ligado
+    // e só servia de superfície de ataque. Contas, projetos e
+    // liberações vivem no Worker.
 
 };
