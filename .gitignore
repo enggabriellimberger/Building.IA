@@ -1,0 +1,10 @@
+# Repositório PÚBLICO: só os arquivos do site sobem.
+# Tudo o mais é ignorado de propósito — credenciais, worker.js,
+# backups e PDFs não podem vir parar aqui por engano.
+*
+!index.html
+!config.js
+!README.md
+!.nojekyll
+!.gitattributes
+!.gitignore
