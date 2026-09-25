@@ -1191,6 +1191,10 @@ Check your Browserslist config to be sure that your targets are set up correctly
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/></svg>
                         Ir para Projetos
                     </button>
+                    <button onclick="toggleUserMenu();contaSairTodos()" title="Encerra a conta em todos os aparelhos, inclusive neste" style="display:flex;align-items:center;gap:8px;width:100%;padding:8px 12px;border-radius:8px;background:transparent;border:none;color:#868f9d;font-size:0.76rem;cursor:pointer;font-family:'Inter',sans-serif;text-align:left">
+                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect width="14" height="20" x="5" y="2" rx="2"/><path d="M12 18h.01"/></svg>
+                        Sair de todos os aparelhos
+                    </button>
                 </div>
             </div>
         </nav>
@@ -1449,7 +1453,7 @@ Check your Browserslist config to be sure that your targets are set up correctly
             <!-- ══ PRIVACIDADE ══ -->
             <article id="legal-privacidade" class="legal-doc">
                 <h1>Política de Privacidade</h1>
-                <p class="legal-data">Última atualização: 15 de setembro de 2026</p>
+                <p class="legal-data">Última atualização: 24 de setembro de 2026</p>
 
                 <h2>1. Quem trata seus dados</h2>
                 <p>O responsável pelo tratamento (controlador, na linguagem da LGPD) é <strong>Gabriel Elias Franciosi Limberger</strong>, engenheiro civil, CREA-PR 219651/D, em Guarapuava/PR.</p>
@@ -1492,8 +1496,7 @@ Check your Browserslist config to be sure that your targets are set up correctly
                         <tr><td>Cloudflare</td><td>Conta, projetos, solicitações, liberações de pagamento</td><td>Hospedagem e armazenamento</td></tr>
                         <tr><td><strong>OpenAI</strong>, através de um serviço intermediário hospedado na Render</td><td><strong>A planta baixa que você envia</strong></td><td>Leitura automática das cotas e dimensões do desenho</td></tr>
                         <tr><td>Mercado Pago</td><td>Dados do pagamento</td><td>Processar a cobrança</td></tr>
-                        <tr><td>Resend</td><td>Nome, contato e conteúdo da solicitação</td><td>Entregar o e-mail da solicitação</td></tr>
-                        <tr><td>Google (Apps Script)</td><td>Nome, e-mail e telefone no momento do cadastro</td><td>Registro interno de cadastros</td></tr>
+                        <tr><td>Resend</td><td>Nome, contato e conteúdo da solicitação; nos avisos de segurança enviados ao responsável, o e-mail da conta e o endereço IP envolvidos</td><td>Entregar esses e-mails ao responsável pelo site</td></tr>
                         <tr><td>Google (Fontes) e redes de distribuição de código</td><td>Endereço IP e dados técnicos do navegador</td><td>Entregar fontes e bibliotecas da página</td></tr>
                     </tbody>
                 </table>
@@ -1529,6 +1532,11 @@ Check your Browserslist config to be sure that your targets are set up correctly
 
                 <h2>8. Segurança</h2>
                 <p>Senhas passam por derivação PBKDF2 com sal próprio por conta. A conexão é cifrada. O acesso aos arquivos pagos é verificado no servidor, não no seu navegador. Ainda assim, nenhum sistema é imune: se ocorrer um incidente que possa gerar risco relevante a você, comunicaremos você e a ANPD, como manda o art. 48 da LGPD.</p>
+                <ul>
+                    <li><strong>Senhas vazadas:</strong> ao criar ou trocar a senha, conferimos se ela aparece em listas públicas de senhas vazadas de outros sites (serviço Have I Been Pwned). A senha não sai do nosso servidor: vão só os 5 primeiros caracteres de um código derivado dela, que não permitem reconstruí-la.</li>
+                    <li><strong>Tentativas de acesso:</strong> erros de senha repetidos bloqueiam a conta e o endereço IP por um tempo que cresce a cada rodada.</li>
+                    <li><strong>Sair de todos os aparelhos:</strong> pelo menu da sua conta, você encerra a sessão em todos os aparelhos de uma vez — útil se perdeu o celular ou entrou num computador que não é seu.</li>
+                </ul>
 
                 <h2>9. Crianças e adolescentes</h2>
                 <p>O serviço é destinado a maiores de 18 anos. Não coletamos intencionalmente dados de menores. Se identificarmos um cadastro nessa condição, ele será excluído.</p>
@@ -1923,6 +1931,10 @@ Check your Browserslist config to be sure that your targets are set up correctly
                             <button onclick="event.stopPropagation();doChatLogout()" style="display:flex;align-items:center;gap:8px;width:100%;padding:8px 12px;border-radius:8px;background:transparent;border:none;color:#f87171;font-size:0.8rem;cursor:pointer;font-family:'Inter',sans-serif;transition:background .15s" onmouseover="this.style.background='rgba(239,68,68,0.07)'" onmouseout="this.style.background='transparent'">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
                                 Sair da Conta
+                            </button>
+                            <button onclick="event.stopPropagation();contaSairTodos()" title="Encerra a conta em todos os aparelhos, inclusive neste" style="display:flex;align-items:center;gap:8px;width:100%;padding:7px 12px;border-radius:8px;background:transparent;border:none;color:#868f9d;font-size:0.74rem;cursor:pointer;font-family:'Inter',sans-serif;text-align:left">
+                                <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect width="14" height="20" x="5" y="2" rx="2"/><path d="M12 18h.01"/></svg>
+                                Sair de todos os aparelhos
                             </button>
                         </div>
                     </div>
@@ -3993,6 +4005,32 @@ function doLogout() {
     _applyLogoutUI();
 }
 
+// Encerra a conta em todos os aparelhos, inclusive este. Serve para quem
+// perdeu o celular ou entrou num computador que não é seu. O servidor
+// corta toda sessão criada antes deste momento.
+function contaSairTodos() {
+    if (!nuvemAtiva() || !nuvemToken()) { doLogout(); return; }
+    if (!confirm('Encerrar a sua conta em TODOS os aparelhos, inclusive neste?\n\n' +
+                 'Use se perdeu o celular ou entrou num computador que não é seu. ' +
+                 'Depois é só entrar de novo com a sua senha.')) return;
+
+    nuvemFetch('/api/conta/sair-todos', { method: 'POST' })
+        .then(function(r) {
+            if (!r.ok && r.status !== 401) {
+                mpAvisoRetorno('erro', (r.d && r.d.erro) || 'Não consegui encerrar as outras sessões. Tente de novo.');
+                return;
+            }
+            // 401: a sessão deste aparelho já tinha caído — sai do mesmo jeito
+            nuvemSetToken(null);
+            clearSession();
+            _applyLogoutUI();
+            mpAvisoRetorno('ok', 'Pronto: a conta foi encerrada em todos os aparelhos. Entre de novo quando quiser.');
+        })
+        .catch(function() {
+            mpAvisoRetorno('erro', 'Sem conexão com o servidor. Nada foi encerrado — tente de novo.');
+        });
+}
+
 function doChatLogout() {
     nuvemSair();
     clearSession();
@@ -4060,7 +4098,8 @@ function toggleLandingMenu() {
              + '<div style="font-size:0.72rem;color:#868f9d;margin-top:2px">' + escHtml(eMail ? eMail.textContent : '') + '</div>'
              + '</div>' + html
              + '<button role="menuitem" onclick="fecharLandingMenu();goToChat(event)" style="' + azul + '">Ir para Projetos</button>'
-             + '<button role="menuitem" onclick="fecharLandingMenu();doLogout()" style="' + base + 'background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);color:#f87171">Sair</button>';
+             + '<button role="menuitem" onclick="fecharLandingMenu();doLogout()" style="' + base + 'background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);color:#f87171">Sair</button>'
+             + '<button role="menuitem" onclick="fecharLandingMenu();contaSairTodos()" style="' + base + 'background:transparent;border:none;color:#868f9d;font-size:0.76rem">Sair de todos os aparelhos</button>';
     } else {
         html += '<button role="menuitem" onclick="fecharLandingMenu();openAuth(\'login\')" style="' + base + 'background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);color:#9ca3af">Entrar</button>'
               + '<button role="menuitem" onclick="fecharLandingMenu();openAuth(\'register\')" style="' + azul + '">Criar Conta</button>';
